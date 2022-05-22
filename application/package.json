@@ -1,0 +1,18 @@
+{
+  "name": "Elastic-Beanstalk-Sample-App",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "debug": "^2.6.9",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "hbs": "^4.1.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

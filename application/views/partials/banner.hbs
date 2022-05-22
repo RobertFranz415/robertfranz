@@ -1,0 +1,23 @@
+<body style="background-color: #1b1b1b; color: white;
+            overflow-x: hidden !important;">
+    <div class="mainTitle" style="text-align: center;
+            overflow-x: hidden !important;">
+        <div class="row">
+            <div class="col-sm text-center">
+                <input style="margin-top: 10px;" type="image" src="/Assets/tutorhublogotest.png" id="logoButton"
+                    onclick="window.location.href = '/';" />
+            </div>
+            <div class="col-sm text-center"></div>
+            <div class="col-sm text-center"></div>
+            <div class="col-sm text-center">
+                {{#if logged}}
+                <br><br><div id="username-display">{{username}}</div>
+                <input type="button" class="btn btn-link" onclick="logoutScript()" id="logout-button"
+                    value="Logout" style="color: #f90;">
+                {{else}}
+                <br><br><input type="button" class="btn btn-link" onclick="window.location.href = 'login';"
+                    value="Login/Register" style="color: #f90;">
+                {{/if}}
+            </div>
+        </div>
+    </div>

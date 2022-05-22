@@ -1,0 +1,112 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+#main-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 3fr));
+    /* grid-template-rows: repeat(auto-fill, minmax(2, 1fr)); */
+}
+
+#flash-message{
+    position: fixed;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%,0);
+    z-index: 9999;
+}
+
+#flash-message div{
+    text-align: center;
+}
+
+#num-results{
+    position: fixed;
+    left: 15%;
+    top: 25%;
+    transform: translate(-50%,0);
+    z-index: 9999;
+}
+
+.card {
+    display: grid;
+    grid-template-rows: 186px 150px;
+    grid-template-columns: auto;
+    border: .0625rem solid white;
+    border-radius: .25rem;
+    width: 500px;
+    text-align: center; 
+    align-items: center; 
+    background-color: #454545;
+    height: 600px;
+    padding: 0%;
+    margin: auto;
+}
+.card-button {
+    background-color: #f90 !important; 
+    color: black;
+}
+.button-wrapper{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card-image {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+div[class=card] > img {
+    height: 100%;
+    width: 100%;
+}
+.card-title {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: .1rem;
+    margin-top: 0;
+    padding-top: .1rem;
+}
+.card-body {
+    grid-area: 2 / 1/ 3 / 2;
+    padding: .75rem;
+    /* background-color: ; */
+    border-radius: 0 0 .2rem .2rem;
+}
+
+div[class=card-body] > a[class=card-button] {
+    text-decoration: none;
+}
+
+.card-text {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#error-container {
+    
+    grid-column-start: 2;
+    grid-column-end: 4;
+    text-align: center;
+}
+
+th {
+    color: orange;
+}
+
+.table>:not(caption)>*>* {
+    border-bottom-width: 0px !important;
+}
+
+.read-color {
+    color: rgb(175, 175, 175);
+}
+.read-color:hover{
+    cursor: pointer;
+}
+
+.table {
+    color: rgb(253, 245, 245);
+    text-align: center;
+}

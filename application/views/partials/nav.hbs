@@ -1,49 +1,37 @@
-<div class="mainTitle" style="text-align: center">
-    <div class=" row">
-        <div class="row">
-            <div class="col-sm-3 text-center"></div>
-            <div class="col-lg">
-                <br><br>
-                <h4>SFSU Software Engineering Project CSC 648-848, Fall 2021 For Demonstration Only</h4>
-                <div class="input-group" style="width: auto;">
-                    <!-- Dropdown -->
-                    <select class="select" id="test" name="" onchange="getSelect(this)">
-                        <option data-adr="0" value="0">Majors</option>
-                        <option data-adr="1" value="1">Computer Science</option>
-                        <option data-adr="2" value="2">Math</option>
-                        <option data-adr="3" value="3">Psychology</option>
-                        <option data-adr="4" value="4">Law</option>
-                        <option data-adr="5" value="5">Nursing</option>
-                        <option data-adr="6" value="6">Music</option>
-                        <option data-adr="7" value="7">Business</option>
-                    </select>
-                    <!-- Search Text Field -->
-                    <input type="search" class="form-control rounded" maxlength="40" placeholder="Enter search terms (e.g Math, CSC600)"
-                        aria-label="Search" aria-describedby="search-addon" id="search-text">
-
-                    <!-- Search Button -->
-                    <button type="button" class="btn btn-outline-dark" onclick="executeSearch()" id="search-button"
-                        style="background-color: #f90 !important; color: black;">Search</button>
-                </div>
-  
-                <!-- Nav Buttons -->
-                <div class="input-group">
-                    {{#if logged}}
-                    <input type="button" class="btn btn-outline-dark btn-sm"
-                        onclick="window.location.href = 'Inbox';" value="Inbox"
-                        style="background-color: #f90 !important; color: black;">
-
-                    <input type="button" class="btn btn-outline-dark btn-sm"
-                        onclick="window.location.href = 'BecomeTutor';" value="Become a Tutor"
-                        style="background-color: #f90 !important; color: black;">
-                    {{/if}}
-                    
-                    <input type="button" class="btn btn-outline-dark btn-sm"
-                        onclick="window.location.href = 'AboutUsHome';" value="About Us"
-                        style="background-color: #f90 !important; color: black;">
-                </div>
-            </div>
-            <div class="col-sm-3 text-center"></div>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-md">
+    <a class="navbar-brand" href="/">Robert Franz</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/aboutme">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/resume">Resume</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="/resume">Contact</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Projects
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/projects">All Projects</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/twitterbot">Twitter Bot</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Tutoring Website</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
     </div>
-</div>
+  </div>
+</nav>

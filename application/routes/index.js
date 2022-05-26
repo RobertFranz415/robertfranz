@@ -21,4 +21,8 @@ router.get('/twitterbot', (req, res, next) => {
     res.render('twitterbot', {title:"Twitterbot"});
 });
 
+router.get('/tutor', (req, res, next) => {
+    res.render('tutor', {title:"Tutor Website"});
+});
+
 module.exports = router;

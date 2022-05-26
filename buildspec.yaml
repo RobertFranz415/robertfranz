@@ -5,4 +5,4 @@ phases:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
-      - mvn install
+      - cd application && npm install

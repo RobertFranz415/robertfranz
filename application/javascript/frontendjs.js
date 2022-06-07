@@ -1,76 +1,4 @@
-<style>
-  /* ---- reset ---- */
-  body {
-    margin: 0;
-    font: normal 75% Arial, Helvetica, sans-serif;
-  }
-
-  canvas {
-    display: block;
-    vertical-align: bottom;
-  }
-
-  /* ---- particles.js container ---- */
-  #particles-js {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #252424;
-    background-image: url("");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-  }
-
-  /* ---- stats.js ---- */
-  .count-particles {
-    background: #000022;
-    position: absolute;
-    top: 48px;
-    left: 0;
-    width: 80px;
-    color: #13E8E9;
-    font-size: .8em;
-    text-align: left;
-    text-indent: 4px;
-    line-height: 14px;
-    padding-bottom: 2px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-  }
-
-  .js-count-particles {
-    font-size: 1.1em;
-  }
-
-  #stats,
-  .count-particles {
-    -webkit-user-select: none;
-    margin-top: 5px;
-    margin-left: 5px;
-  }
-
-  #stats {
-    border-radius: 3px 3px 0 0;
-    overflow: hidden;
-  }
-
-  .count-particles {
-    border-radius: 0 0 3px 3px;
-  }
-</style>
-
-
-<body>
-  {{!-- <div class="count-particles"> <span class="js-count-particles">--</span> particles </div> --}}
-  <div id="particles-js">
-    <div>Home Page</div>
-  </div>
-
-</body>
-
-<script>
- particlesJS("particles-js", {
+particlesJS("particles-js", {
     particles: {
       number: { value: 80, density: { enable: true, value_area: 800 } },
       color: { value: "#13E8E9" },
@@ -142,5 +70,3 @@
     requestAnimationFrame(update);
   };
   requestAnimationFrame(update);
-
-</script>

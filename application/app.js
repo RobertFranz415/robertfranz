@@ -16,7 +16,8 @@ var log = function (entry) {
     fs.appendFileSync('/tmp/sample-app.log', new Date().toISOString() + ' - ' + entry + '\n');
 };
 
-// app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, 'templates')));
 
 app.engine('hbs', exhbs.engine({
     extname: '.hbs',

@@ -1,0 +1,118 @@
+<script>
+    let song;
+    var fft;
+    var particles = [];
+
+    function preload() {
+        //song = loadSound('Fantasy.mp3');
+        // song = loadSound('DotEXE.mp3');
+        // song = loadSound('Carefree.mp3');
+        // song = loadSound('Cassiopeia.mp3');
+    }
+
+    function setup() {
+        createCanvas(windowWidth, windowHeight);
+        fft = new p5.FFT();
+        angleMode(DEGREES);
+        colorMode(HSB, 360, 100, 100);
+        dim = width / 2;
+        img = loadImage('park-junkyu-3.jpg');
+    }
+
+    function draw() {
+
+        background(0);
+        //stroke(255);
+        let h = random(200, 300);
+        stroke(h, h, h);
+        strokeWeight(3)
+        noFill();
+
+        translate(width / 2, height / 2);
+        image(img, -width / 6.5, -height / 6, img.width / 3.75, img.height / 3.75);
+        fft.analyze();
+        amp = fft.getEnergy(20, 200)
+
+        var wave = fft.waveform();
+        for (var t = -1; t <= 1; t += 2) {
+            beginShape();
+            for (var i = 0; i <= 180; i += .5) {
+                var index = floor(map(i, 0, 180, 0, wave.length - 1));
+
+                var r = map(wave[index], -1, 1, 150, 350)
+                var x = r * sin(i) * t;
+                var y = r * cos(i);
+
+                vertex(x, y);
+            }
+            endShape();
+        }
+
+        let space_between_lines = width / 128;
+        let spectrum = fft.analyze();
+        for (var m = -1; m <= 1; m += 2) {
+            for (let i = 0; i < spectrum.length; i++) {
+                stroke(h, h, h);
+                let amp1 = spectrum[i];
+                let y = map(amp1, -100, 300, height, 200);
+                line(m * i * space_between_lines, height, m * i * space_between_lines, y);
+            }
+        }
+        var p = new Particle();
+
+        particles.push(p);
+
+        for (var i = particles.length - 1; i >= 0; i--) {
+            if (!particles[i].edges()) {
+                particles[i].update(amp > 230);
+                particles[i].show();
+            } else {
+                particles.splice(i, 1)
+            }
+        }
+    }
+
+    class Particle {
+        constructor() {
+            this.pos = p5.Vector.random2D().mult(250);
+            this.vel = createVector(0, 0);
+            this.acc = this.pos.copy().mult(random(0.0001, 0.00001));
+
+            this.w = random(3, 5);
+            let h = random(200, 300);
+            this.color = [h, h, h]
+        }
+        update(cond) {
+            this.vel.add(this.acc)
+            this.pos.add(this.vel)
+            if (cond) {
+                let g = random(200, 300);
+                this.color = [g, g, g]
+                this.pos.add(this.vel)
+                this.pos.add(this.vel)
+                this.pos.add(this.vel)
+            }
+        }
+        edges() {
+            if (this.pos.x < -width / 2 || this.pos.x > width / 2 ||
+                this.pos.y < -height / 2 || this.pos.y > height / 2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        show() {
+            noStroke()
+            fill(this.color)
+            ellipse(this.pos.x, this.pos.y, this.w)
+        }
+    }
+
+    function mouseClicked() {
+        if (song.isPlaying()) {
+            song.pause();
+        } else {
+            song.play();
+        }
+    }
+</script>

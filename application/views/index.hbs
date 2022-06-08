@@ -62,7 +62,7 @@
   .welcome-container {
     display: grid;
     grid-template-columns: 100px auto 100px;
-    grid-template-rows: 200px auto 200px;
+    grid-template-rows: 200px auto auto 200px;
   }
 
   .welcome {
@@ -70,6 +70,14 @@
     grid-row: 2;
     text-align: center;
     font-size: 100px;
+    color: aliceblue;
+    z-index: 1;
+  }
+  .hint {
+    grid-column: 2;
+    grid-row: 3;
+    text-align: center;
+    font-size: 30px;
     color: aliceblue;
     z-index: 1;
   }
@@ -81,6 +89,7 @@
   <div class="welcome-container">
     <div id="particles-js"></div>
     <div class="welcome">Welcome to My Website!</div>
+    <div class="hint">(Click the background)</div>
   </div>
   </div>
 

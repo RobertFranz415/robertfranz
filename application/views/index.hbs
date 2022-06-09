@@ -60,9 +60,10 @@
   }
 
   .welcome-container {
+   
     display: grid;
     grid-template-columns: 100px auto 100px;
-    grid-template-rows: 200px auto auto 200px;
+    grid-template-rows: 200px auto auto auto 200px;
   }
 
   .welcome {
@@ -73,6 +74,7 @@
     color: aliceblue;
     z-index: 1;
   }
+
   .hint {
     grid-column: 2;
     grid-row: 3;
@@ -80,6 +82,14 @@
     font-size: 30px;
     color: aliceblue;
     z-index: 1;
+  }
+
+  .social-media {
+    grid-column: 2;
+    grid-row: 4;
+    z-index: 1;
+    text-align: center;
+    padding-top: 200px;
   }
 </style>
 
@@ -90,6 +100,27 @@
     <div id="particles-js"></div>
     <div class="welcome">Welcome to My Website!</div>
     <div class="hint">(Click the background)</div>
+    
+      <!-- Section: Social media -->
+        <div class="social-media">
+          <!-- Twitter -->
+          <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+
+          <!-- Google -->
+          <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-google"></i></a>
+
+          <!-- Linkedin -->
+          <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+              class="fab fa-linkedin-in"></i></a>
+
+          <!-- Github -->
+          <a class="btn btn-outline-light btn-floating m-1"
+            onclick="location.href='https://www.github.com/RobertFranz-sfsu'" role="button"><i
+              class="fab fa-github"></i></a>
+        </div>
+      
+      <!-- Section: Social media -->
+    
   </div>
   </div>
 

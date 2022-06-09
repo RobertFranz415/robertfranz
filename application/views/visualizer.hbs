@@ -3,8 +3,18 @@
         background-color: aquamarine;
         color:brown;
     } */
+    .vis-container{
+        grid-area: body;
+    }
+    .defaultCanvas0 {
+        grid-area: body;
+    }
 </style>
+<body>
+    <div class="vis-container">
 
+    </div>
+</body>
 <script>
     let song;
     var fft;
@@ -34,7 +44,8 @@
         createCanvas(1000, 1000);
         songButton = createButton("Play");
         songButton.mousePressed(togglePlaying);
-        volSlider = createSlider(0, 2, 0.2, 0.2);
+        song.setVolume(.3);
+        volSlider = createSlider(0, 1, 0.1, 0.2);
         volSlider.input(updateVol);
         /*
         song1Button = createButton("Run Away");

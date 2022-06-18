@@ -1,15 +1,4 @@
-<style>
-    /* #songButton{
-        background-color: aquamarine;
-        color:brown;
-    } */
-    .vis-container{
-        grid-area: body;
-    }
-    .defaultCanvas0 {
-        grid-area: body;
-    }
-</style>
+
 <body>
     <div class="vis-container">
 
@@ -44,8 +33,8 @@
         createCanvas(1000, 1000);
         songButton = createButton("Play");
         songButton.mousePressed(togglePlaying);
-        song.setVolume(.3);
-        volSlider = createSlider(0, 1, 0.1, 0.2);
+        song.setVolume(.05);
+        volSlider = createSlider(0, 1, 0.05, 0.02);
         volSlider.input(updateVol);
         /*
         song1Button = createButton("Run Away");

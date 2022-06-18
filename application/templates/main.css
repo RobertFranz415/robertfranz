@@ -1,3 +1,134 @@
-.navbar1{
-    margin-left: 50%;
+/* ---- reset ---- */
+body {
+    margin: 0;
+    font: normal 75% Arial, Helvetica, sans-serif;
+}
+
+canvas {
+    display: block;
+    vertical-align: bottom;
+}
+
+/* ---- particles.js container ---- */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #252424;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+/* ---- stats.js ---- */
+.count-particles {
+    background: #000022;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 80px;
+    color: #13E8E9;
+    font-size: .8em;
+    text-align: left;
+    text-indent: 4px;
+    line-height: 14px;
+    padding-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.js-count-particles {
+    font-size: 1.1em;
+}
+
+#stats,
+.count-particles {
+    -webkit-user-select: none;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#stats {
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+}
+
+.count-particles {
+    border-radius: 0 0 3px 3px;
+}
+
+.welcome-container {
+
+    display: grid;
+    grid-template-columns: 100px auto 100px;
+    grid-template-rows: 200px auto auto auto 200px;
+}
+
+.welcome {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: center;
+    font-size: 100px;
+    color: aliceblue;
+    z-index: 1;
+}
+
+.hint {
+    grid-column: 2;
+    grid-row: 3;
+    text-align: center;
+    font-size: 30px;
+    color: aliceblue;
+    z-index: 1;
+}
+
+.social-media {
+    grid-column: 2;
+    grid-row: 4;
+    z-index: 1;
+    text-align: center;
+    padding-top: 200px;
+}
+
+.vis-container {
+    grid-area: body;
+}
+
+.defaultCanvas0 {
+    grid-area: body;
+}
+
+header {
+    grid-area: header;
+}
+
+body {
+    grid-area: body;
+    background-color: #252424;
+}
+
+footer {
+    grid-area: footer;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+        "header"
+        "body"
+        "footer";
+}
+
+
+/* Nav Bar */
+.navbar-nav {
+    color: aliceblue;
+}
+
+.navbar-collapse {
+
+    color: aliceblue;
 }

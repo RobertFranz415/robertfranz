@@ -1,47 +1,52 @@
-
 <body>
-    <div class="vis-container">
+    <div class="vis-container" id="canvas-div">
 
     </div>
 </body>
+<script>
+    //document.getElementById("div-test").innerHTML = '<div> TEST </div>';
+
+    //visDiv.appendChild(songButton);
+    //visDiv.appendChild(volSlider);
+</script>
+
 <script>
     let song;
     var fft;
     var particles = [];
 
     function preload() {
-        
-        // song = loadSound('DotEXE.mp3');
-        // song = loadSound('Fantasy.mp3');
+
         song = loadSound('Sleeptalk.mp3');
+        Sleeptalk = loadSound('Sleeptalk.mp3');
+        RunAway = loadSound('DotEXE.mp3');
+        Fantasy = loadSound('Fantasy.mp3');
+        //song = Sleeptalk;
     }
 
-    /*
-    function selectSong(title) {
-        console.log(title)
-        //song = loadSound(title);
-        if (title === "DotEXE.mp3"){
-            song = song2;
-        } else {
-            song = song1;
-        }
-    }
-    */
-    
     function setup() {
         // createCanvas(windowWidth, windowHeight);
-        createCanvas(1000, 1000);
-        songButton = createButton("Play");
+
+        var myCanvas = createCanvas(1000, 1000);
+        myCanvas.parent("canvas-div");
+        songButton = createButton("play_arrow");
+        songButton.class("vis_btn material-symbols-outlined");
+        //songButton.parent("canvas-div")
         songButton.mousePressed(togglePlaying);
         song.setVolume(.05);
         volSlider = createSlider(0, 1, 0.05, 0.02);
+        volSlider.class("vol-slider");
+        //volSlider.parent("canvas-div");
         volSlider.input(updateVol);
-        /*
-        song1Button = createButton("Run Away");
-        song2Button = createButton("Fantasy");
-        song1Button.mousePressed(selectSong('DotEXE.mp3'));
-        song2Button.mousePressed(selectSong('Fantasy.mp3'));
-        */
+
+        
+        sel = createSelect();
+        sel.option('Sleeptalk');
+        sel.option('RunAway');
+        sel.option('Fantasy');
+        sel.changed(selEvent);
+        sel.class("btn btn-secondary dropdown-toggle");
+
         fft = new p5.FFT();
         angleMode(DEGREES);
         colorMode(HSB, 360, 100, 100);
@@ -50,13 +55,32 @@
         img = loadImage('park-junkyu-3.jpg');
     }
 
+    function selEvent() {
+        if (song.isPlaying()){
+            togglePlaying();
+        }
+        
+        if (sel.value() === "RunAway"){
+            song = RunAway;
+        }
+        else if (sel.value() === "Fantasy"){
+            song = Fantasy;
+        }
+        else if (sel.value() === "Sleeptalk"){
+            song = Sleeptalk;
+        }
+
+    }
+
     function togglePlaying() {
         if (song.isPlaying()) {
             song.pause();
-            songButton.html("Play")
+            //songButton.class("btn btn-outline-light btn-floating m-1 fa-play");
+            songButton.html("play_arrow");
         } else {
             song.play();
-            songButton.html("Pause");
+            //songButton.class("btn btn-outline-light btn-floating m-1  fa-twitter");
+            songButton.html("pause");
         }
     }
 

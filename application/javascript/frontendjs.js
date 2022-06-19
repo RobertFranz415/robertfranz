@@ -71,3 +71,44 @@ update = function () {
 };
 requestAnimationFrame(update);
 
+
+
+/*  Visualizer js  */
+
+function togglePlaying() {
+  if (song.isPlaying()) {
+      song.pause();
+      songButton.html("play_arrow");
+  } else {
+      song.play();
+      songButton.html("pause");
+  }
+}
+
+function updateVol() {
+  song.setVolume(volSlider.value());
+}
+
+function browserTest() {
+  console.log("Browser Test Called");
+  var uAgent = navigator.userAgent;
+  let browserName;
+  
+  if (uAgent.match(/firefox|fxios/i)) {
+      browserName = "firefox";
+  } else if (uAgent.match(/chrome|chromium|crios/i)) {
+      browserName = "chrome";
+  } else if (uAgent.match(/safari/i)) {
+      browserName = "safari";
+  } else if (uAgent.match(/opr\//i)) {
+      browserName = "opera";
+  } else if (uAgent.match(/edg/i)) {
+      browserName = "edge";
+  } else {
+      browserName = "Unable to detect browser";
+  }
+  console.log(browserName);
+  if (browserName !== 'firefox') {
+      document.getElementById("canvas-div").innerHTML = '<div id="browser-warning"> ONLY WORKS IN FIREFOX FOR NOW </div>'
+  }
+}

@@ -29,6 +29,13 @@
 
         var myCanvas = createCanvas(1000, 1000);
         myCanvas.parent("canvas-div");
+
+        fft = new p5.FFT();
+        angleMode(DEGREES);
+        colorMode(HSB, 360, 100, 100);
+        dim = width / 2;
+        img = loadImage('park-junkyu-3.jpg');
+
         songButton = createButton("play_arrow");
         songButton.class("vis_btn material-symbols-outlined");
         //songButton.parent("canvas-div")
@@ -39,47 +46,40 @@
         //volSlider.parent("canvas-div");
         volSlider.input(updateVol);
 
-        
+        const songMap = new Map();
+        songMap.set("Sleeptalk", Sleeptalk);
+        songMap.set("Run Away", RunAway);
+        songMap.set("Fantasy", Fantasy);
+
+        /* Song Selecter Drop Down Menu */
         sel = createSelect();
         sel.option('Sleeptalk');
-        sel.option('RunAway');
+        sel.option('Run Away');
         sel.option('Fantasy');
         sel.changed(selEvent);
         sel.class("btn btn-secondary dropdown-toggle");
 
-        fft = new p5.FFT();
-        angleMode(DEGREES);
-        colorMode(HSB, 360, 100, 100);
-        dim = width / 2;
+        function selEvent() {
 
-        img = loadImage('park-junkyu-3.jpg');
-    }
+            if (song.isPlaying()) {
+                togglePlaying();
+            }
 
-    function selEvent() {
-        if (song.isPlaying()){
-            togglePlaying();
-        }
-        
-        if (sel.value() === "RunAway"){
-            song = RunAway;
-        }
-        else if (sel.value() === "Fantasy"){
-            song = Fantasy;
-        }
-        else if (sel.value() === "Sleeptalk"){
-            song = Sleeptalk;
+            song = songMap.get(sel.value());
+
+            updateVol();
         }
 
     }
+
+
 
     function togglePlaying() {
         if (song.isPlaying()) {
             song.pause();
-            //songButton.class("btn btn-outline-light btn-floating m-1 fa-play");
             songButton.html("play_arrow");
         } else {
             song.play();
-            //songButton.class("btn btn-outline-light btn-floating m-1  fa-twitter");
             songButton.html("pause");
         }
     }

@@ -171,17 +171,17 @@ footer {
         "buttons info ";
 }
 
-.dropdown-toggle{
+.mus-drop{
     background-color: #252424;
     text-align: center;
     margin-left: 10px;
 }
 
-.dropdown-toggle:active {
+.mus-drop:active {
     background-color: #252525;
 }
 
-.dropdown-toggle:hover {
+.mus-drop:hover {
     background-color: #252525;
     box-shadow: 0 4px 10px 0 #13E8E9;
 }

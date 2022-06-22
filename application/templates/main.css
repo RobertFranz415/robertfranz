@@ -122,6 +122,31 @@ footer {
         "footer";
 }
 
+#hci-container{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "title title"
+        "desc link";
+}
+
+#hci-link {
+    grid-area: desc;
+    padding: 100px;
+    color: aliceblue;
+    font-size: large;
+    align-self: center;
+    right: 25%;
+}
+
+#hci-btn {
+    grid-area: link;
+    height: 50px;
+    width: 175px;
+    align-self: center;
+}
+
 
 /* Nav Bar */
 .navbar-nav {

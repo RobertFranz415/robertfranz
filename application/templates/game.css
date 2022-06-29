@@ -53,6 +53,20 @@
     --bottom: 15;
     position: absolute;
     left: calc(var(--left) * 1%);
-    height: 30%;
+    height: 40%;
     bottom: 0;
+}
+
+.enemy {
+    --bottom: 15;
+    position: absolute;
+    left: calc(var(--left) * 1%);
+    height: 30%;
+    bottom: 15;
+}
+
+.laser {
+    --bottom: 15;
+    position: absolute;
+    left: 6%;
 }

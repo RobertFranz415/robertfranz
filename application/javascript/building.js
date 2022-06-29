@@ -27,7 +27,7 @@ export function updateBuilding(delta, speedScale) {
 
     if (nextBuildingTime <= 0) {
         createBuilding()
-        nextBuildingTime = randomNumberBetween(BUILDING_INTERVAL_MIN, BUILDING_INTERVAL_MAX) / speedScale
+        nextBuildingTime = randomNumberBetween(BUILDING_INTERVAL_MIN, BUILDING_INTERVAL_MAX) / speedScale;
     }
     nextBuildingTime -= delta
 }
@@ -49,10 +49,10 @@ export function resetBuildingCount() {
 function createBuilding() {
     const building = document.createElement("img");
     building.dataset.building = true;
-    building.src = "building.png"
-    building.classList.add("building")
-    setCustomProperty(building, "--left", 100)
-    worldElem.append(building)
+    building.src = "building.png";
+    building.classList.add("building");
+    setCustomProperty(building, "--left", 100);
+    worldElem.append(building);
 }
 
 function randomNumberBetween(min, max) {

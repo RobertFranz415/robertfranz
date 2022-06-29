@@ -2,12 +2,12 @@ import { getCustomProperty, incrementCustomProperty, setCustomProperty } from ".
 
 const ufoElem = document.querySelector("[data-ufo]")
 const JUMP_SPEED = 0.45
-const GRAVITY = 0.002
+const GRAVITY = 0.0015
 const UFO_FRAME_COUNT = 3
 const FRAME_TIME = 100
 
 
-let isJumping
+export let isJumping
 let ufoFrame
 let currentFrameTime
 let yVelocity
@@ -27,7 +27,7 @@ export function updateUfo(delta, speedScale) {
 }
 
 export function getUfoRect() {
-    return ufoElem.getBoundingClientRect()
+    return ufoElem.getBoundingClientRect();
 }
 
 export function setUfoLose() {
@@ -50,7 +50,6 @@ function handleRun(delta, speedScale) {
 
 function handleJump(delta) {
     if (!isJumping) return
-
     incrementCustomProperty(ufoElem, "--bottom", yVelocity * delta)
 
     if (getCustomProperty(ufoElem, "--bottom") <= 0) {

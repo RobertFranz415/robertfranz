@@ -6,18 +6,21 @@ const BUILDING_INTERVAL_MAX = 2000
 const worldElem = document.querySelector("[data-world")
 
 let nextBuildingTime
+let numBuildings = 0;
 export function setupBuilding() {
     nextBuildingTime = BUILDING_INTERVAL_MIN
     document.querySelectorAll("[data-building").forEach(building => {
         building.remove()
+        
     })
 }
 
 export function updateBuilding(delta, speedScale) {
     document.querySelectorAll("[data-building").forEach(building => {
         incrementCustomProperty(building, "--left", delta * speedScale * SPEED * -1);
-        if (getCustomProperty(building, "--left") <= -100) {
+        if (getCustomProperty(building, "--left") <= -1) {
             building.remove();
+            numBuildings++;
         }
     })
 
@@ -33,6 +36,14 @@ export function getBuildingRect() {
     return [...document.querySelectorAll("[data-building")].map(building => {
         return building.getBoundingClientRect()
     })
+}
+
+export function getBuildingCount() {
+    return numBuildings;
+}
+
+export function resetBuildingCount() {
+    numBuildings = 0;
 }
 
 function createBuilding() {

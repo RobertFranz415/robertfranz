@@ -21,11 +21,12 @@
 
 .start-screen {
     position: absolute;
-    font-size: 5vmin;
+    font-size: 3vmin;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: aliceblue;
+    z-index: 1;
 }
 
 .hide {

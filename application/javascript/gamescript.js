@@ -1,6 +1,6 @@
 import { setupGround, updateGround } from './ground.js'
 import { setupUfo, updateUfo, getUfoRect, setUfoLose } from './ufoscript.js'
-import { setupBuilding, updateBuilding, getBuildingRect } from './building.js'
+import { setupBuilding, updateBuilding, getBuildingRect, getBuildingCount, resetBuildingCount } from './building.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
@@ -75,15 +75,18 @@ function handleStart() {
 }
 
 function handleLose() {
+    let cnt = getBuildingCount();
     setUfoLose()
     setTimeout(() => {
         document.addEventListener("keydown", handleStart, {once: true})
         startScreenElem.classList.remove("hide")
+        startScreenElem.innerHTML = `Score: ${Math.floor(score)}  Jumped over ${cnt} buildings<br>  Press any key to play again`
     }, 100)
+    resetBuildingCount();
 }
 
 function setPixelToWorldScale() {
-    console.log("HELLO")
+    
     let worldToPixelScale;
     if (window.innerWidth / window.innerHeight < WORLD_WIDTH / WORLD_HEIGHT) {
         worldToPixelScale = window.innerWidth / WORLD_WIDTH;

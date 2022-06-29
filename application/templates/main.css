@@ -122,11 +122,11 @@ footer {
         "footer";
 }
 
-#hci-container{
+#hci-container {
     display: grid;
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
-    grid-template-areas: 
+    grid-template-areas:
         "title title"
         "desc link";
 }
@@ -166,9 +166,11 @@ footer {
     border: #252424;
     left: 0%;
 }
-.vol-slider{
+
+.vol-slider {
     grid-area: buttons;
 }
+
 .song-menu {
     background-color: #252525;
     color: aliceblue;
@@ -177,26 +179,27 @@ footer {
     border-radius: 10%;
     border-width: 3px;
 }
+
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 1,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
 }
 
 #canvas-div {
     grid-area: body;
     display: grid;
-    grid-template-columns: auto ;
+    grid-template-columns: auto;
     grid-template-rows: auto;
-    grid-template-areas: 
+    grid-template-areas:
         "vis info "
         "vis info "
         "buttons info ";
 }
 
-.mus-drop{
+.mus-drop {
     background-color: #252424;
     text-align: center;
     margin-left: 10px;
@@ -215,4 +218,81 @@ footer {
 #browser-warning {
     color: aliceblue;
     font-size: larger;
+}
+
+/* Projects Page */
+
+#projects-container {
+    grid-area: body;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-columns: auto;
+    color: aliceblue;
+}
+
+.l-side {
+    grid-column: 1/2;
+
+}
+
+.r-side {
+    grid-column: 3/4;
+    
+}
+
+.pro-list {
+    padding-top: 20px;
+    display: flex;
+    
+    gap: 10px 10px;
+    /* justify-content: space-between; */
+    /* align-self: center; */
+    /* align-content: center; */
+}
+
+.pro-list > * {
+    flex: 1 100%
+}
+
+.list-title{
+    /* order: 2; */
+    align-self: flex-start;
+    font-size: x-large;
+}
+.list-image{
+    order: 2;
+}
+.list-text{
+   /* order: 3; */
+   flex-grow: 4;
+}
+.material-symbols-outlined{
+    /* order: 4; */
+    flex-shrink: 2;
+    align-self: middle;
+    color: aliceblue;
+}
+.material-symbols-outlined:hover{
+    color: rgb(195, 196, 197);
+}
+
+
+#list-bot {
+    grid-row: 1 / 2;
+    grid-column: 2/3;
+}
+
+#list-vis {
+    grid-row: 2 / 3;
+    grid-column: 2/3;
+}
+
+#list-tut {
+    grid-row: 3 / 4;
+    grid-column: 2/3;
+}
+
+#list-hci {
+    grid-row: 4 / 5;
+    grid-column: 2/3;
 }

@@ -37,4 +37,8 @@ router.get('/hci', (req, res, next) => {
     res.render('hci', {title:"HCI Project"});
 });
 
+router.get('/game', (req, res, next) => {
+    res.render('game', {title:"Browser Game"});
+});
+
 module.exports = router;

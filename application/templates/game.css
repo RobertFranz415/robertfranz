@@ -27,6 +27,7 @@
     transform: translate(-50%, -50%);
     color: aliceblue;
     z-index: 1;
+    align-self: center;
 }
 
 .hide {
@@ -69,4 +70,20 @@
     --bottom: 15;
     position: absolute;
     left: 6%;
+}
+
+#instructions {
+    display: grid;
+    /*grid-template-columns: auto;*/
+    color: aliceblue;
+    font-size: 2vmin;
+    border-radius: 10px;
+
+    align-self: center;
+    padding-top: 100px;
+}
+.inst{
+  /* border: 1px solid aliceblue; */
+   padding: 10px;
+   text-align: center;
 }

@@ -1,7 +1,7 @@
 import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
-import { setupUfo, updateUfo, getUfoRect, setUfoLose, isJumping } from './ufoscript.js'
+import { setupUfo, updateUfo, getUfoRect, setUfoLose, isJumping, height } from './ufoscript.js'
 import { removeEnemy } from "./enemies.js";
-import { lowerScore } from "./gamescript.js";
+import { isPlaying, lowerScore } from "./gamescript.js";
 
 const worldElem = document.querySelector("[data-world")
 
@@ -16,8 +16,8 @@ export function setupLaser() {
 
     })
     isShooting = false;
-    document.removeEventListener("keydown", onShoot)
-    document.addEventListener("keydown", onShoot)
+    // document.removeEventListener("keydown", onShoot)
+    // document.addEventListener("keydown", onShoot)
 
 }
 
@@ -62,14 +62,16 @@ function createLaser(delta) {
     laser.src = "laser-0.png";
     laser.classList.add("laser");
     //laser.id = "laserr"
- 
-    setCustomProperty(laser, "--bottom", 50);
+
+    setCustomProperty(laser, "--bottom", height);
+
     worldElem.append(laser);
 }
 
-function onShoot(e) {
-    
-    if (e.code !== "KeyF" || isShooting) return
+export function onShoot() {
+    if (!isJumping || isShooting || !isPlaying) {
+        return;
+    }
     
     isShooting = true;
     firetime = laserTime;

@@ -1,7 +1,7 @@
 import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
 
 const SPEED = 0.05
-const BUILDING_INTERVAL_MIN = 500
+const BUILDING_INTERVAL_MIN = 600
 const BUILDING_INTERVAL_MAX = 2000
 const worldElem = document.querySelector("[data-world")
 

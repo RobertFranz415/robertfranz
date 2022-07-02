@@ -1,8 +1,8 @@
 import { setupGround, updateGround } from './ground.js'
-import { setupUfo, updateUfo, getUfoRect, setUfoLose } from './ufoscript.js'
+import { setupUfo, updateUfo, getUfoRect, setUfoLose, onJump } from './ufoscript.js'
 import { setupBuilding, updateBuilding, getBuildingRect, getBuildingCount, resetBuildingCount } from './building.js'
 import { setupEnemy, updateEnemy, getEnemyRect, removeEnemy, getEnemyCount, resetEnemyCount } from './enemies.js'
-import { setupLaser, updateLaser } from './laser.js'
+import { onShoot, setupLaser, updateLaser } from './laser.js'
 
 const WORLD_WIDTH = 100
 const WORLD_HEIGHT = 30
@@ -14,13 +14,14 @@ const startScreenElem = document.querySelector('[data-start-screen]')
 
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
-document.addEventListener("keydown", handleStart,)
+document.addEventListener("keydown", handleInput)
 
 setupGround()
 
 let lastTime = null;
 let speedScale;
 export let score;
+export var isPlaying = false;
 function update(time) {
 
     if (lastTime == null) {
@@ -75,8 +76,8 @@ function updateScore(delta) {
     scoreElem.textContent = Math.floor(score)
 }
 
-function handleStart(e) {
-    if (e.code !== "Enter") return;
+function handleStart() {
+    //if (e.code !== "Enter") return;
     lastTime = null;
     speedScale = 1
     score = 0
@@ -87,17 +88,35 @@ function handleStart(e) {
     setupEnemy();
     startScreenElem.classList.add("hide")
     window.requestAnimationFrame(update);
+    isPlaying = true;
+}
+
+function handleInput(e) {
+    if (e.code === "Enter") {
+        handleStart();
+    }
+    else if (e.code === "Space") {
+        onJump();
+    }
+    else if (e.code === "KeyF") {
+        onShoot();
+    }
 }
 
 function handleLose() {
     let cnt = getBuildingCount();
     setUfoLose()
     setTimeout(() => {
-        document.addEventListener("keydown", handleStart, { once: true })
+        document.addEventListener("keydown", handleInput /*, { once: true } */)
         startScreenElem.classList.remove("hide")
         startScreenElem.innerHTML = `Score: ${Math.floor(score)}  Jumped over ${cnt} buildings<br>  Press Enter to play again`
     }, 100)
     resetBuildingCount();
+    let laserr = document.querySelector("[data-laser]");
+    if (laserr){
+        laserr.remove();
+    }
+    isPlaying = false;
 }
 
 function setPixelToWorldScale() {

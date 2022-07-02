@@ -43,7 +43,7 @@
 }
 
 .ufo {
-    --bottom: 15;
+    --bottom: 0;
     position: absolute;
     left: 2%;
     height: 30%;
@@ -51,12 +51,12 @@
 }
 
 .building {
-    --bottom: 15;
+    --bottom: 0;
     position: absolute;
     left: calc(var(--left) * 1%);
     height: 40%;
     bottom: 0;
-}
+} 
 
 .enemy {
     --bottom: 15;
@@ -67,9 +67,10 @@
 }
 
 .laser {
-    --bottom: 15;
+    --bottom: 0;
     position: absolute;
     left: 6%;
+    bottom: calc(var(--bottom) * 1%);
 }
 
 #instructions {

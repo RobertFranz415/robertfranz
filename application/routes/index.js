@@ -41,4 +41,8 @@ router.get('/game', (req, res, next) => {
     res.render('game', {title:"Browser Game"});
 });
 
+router.get('/tfe', (req, res, next) => {
+    res.render('twenty', {title:"Number Game"});
+});
+
 module.exports = router;

@@ -124,24 +124,68 @@ footer {
 
 #hci-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "left title title right"
+        "left pic writing right";
+    color: aliceblue;
+    padding: 50px;
+}
+
+#hci-title {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    font-size: 3vh;
+    padding-bottom: 30px;
+}
+
+#hci-pic {
+    grid-area: pic;
+}
+
+#hci-text {
+    grid-area: writing;
+    display: flex;
+    gap: 10px 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+#hci-desc {
+    
+    font-size: 2vh;
+}
+
+#hci-more {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 10px;
+
+    /* grid-template-columns: auto auto;
     grid-template-rows: auto auto;
     grid-template-areas:
         "title title"
-        "desc link";
+        "desc link"; */
 }
 
 #hci-link {
-    grid-area: desc;
-    padding: 100px;
+    /* grid-area: desc; */
+    /* padding-top: 100px; */
     color: aliceblue;
     font-size: large;
-    align-self: center;
-    right: 25%;
+    /* align-self: center;
+    right: 25%; */
 }
 
 #hci-btn {
-    grid-area: link;
+    /* grid-area: link; */
     height: 50px;
     width: 175px;
     align-self: center;

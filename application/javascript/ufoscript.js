@@ -1,23 +1,26 @@
 import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
+import { getIsPlaying, lowerScore } from "./gamescript.js";
 
-const ufoElem = document.querySelector("[data-ufo]")
-const JUMP_SPEED = 0.45
-const GRAVITY = 0.0015
-const UFO_FRAME_COUNT = 3
-const FRAME_TIME = 100
+const ufoElem = document.querySelector("[data-ufo]");
+const JUMP_SPEED = 0.45;
+const GRAVITY = 0.0015;
+const UFO_FRAME_COUNT = 3;
+const FRAME_TIME = 100;
+const MOVE_DISTANCE = 5;
 
-
-export let isJumping;
-export var height = 0;
-let ufoFrame
-let currentFrameTime
-let yVelocity
+var isJumping;
+var height = 0;
+var horizontal;
+let ufoFrame;
+let currentFrameTime;
+let yVelocity;
 export function setupUfo() {
-    isJumping = false
-    ufoFrame = 0
-    currentFrameTime = 0
-    yVelocity = 0
-    setCustomProperty(ufoElem, "--bottom", 0)
+    isJumping = false;
+    ufoFrame = 0;
+    currentFrameTime = 0;
+    yVelocity = 0;
+    setCustomProperty(ufoElem, "--bottom", 0);
+    setCustomProperty(ufoElem, "--left", 0);
     // document.removeEventListener("keydown", onJump)
     // document.addEventListener("keydown", onJump)
 }
@@ -50,8 +53,8 @@ function handleRun(delta, speedScale) {
 }
 
 function handleJump(delta) {
-    if (!isJumping) return
-    incrementCustomProperty(ufoElem, "--bottom", yVelocity * delta)
+    if (!isJumping) return;
+    incrementCustomProperty(ufoElem, "--bottom", yVelocity * delta);
     height = getCustomProperty(ufoElem, "--bottom");
 
     if (getCustomProperty(ufoElem, "--bottom") <= 0) {
@@ -64,7 +67,33 @@ function handleJump(delta) {
 
 export function onJump() {
     if (isJumping) return;
-  
+
     yVelocity = JUMP_SPEED;
     isJumping = true;
-  }
+}
+
+export function getIsJumping() {
+    return isJumping;
+}
+
+export function getHeight() {
+    return height;
+}
+
+export function getHorizontal() {
+    return horizontal;
+}
+
+export function moveShip(e) {
+    if (!getIsPlaying()) return;
+
+    if (e.code === "ArrowRight") {
+        if (getCustomProperty(ufoElem, "--left") > 90) return;
+        incrementCustomProperty(ufoElem, "--left", MOVE_DISTANCE);
+    }
+    else if (e.code === "ArrowLeft") {
+        if (getCustomProperty(ufoElem, "--left") === 0) return;
+        incrementCustomProperty(ufoElem, "--left", -MOVE_DISTANCE)
+    }
+    horizontal = getCustomProperty(ufoElem, "--left");
+}

@@ -1,12 +1,12 @@
 import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
 
-const SPEED = 0.05
-const BUILDING_INTERVAL_MIN = 600
-const BUILDING_INTERVAL_MAX = 2000
-const worldElem = document.querySelector("[data-world")
+const SPEED = 0.05;
+const BUILDING_INTERVAL_MIN = 600;
+const BUILDING_INTERVAL_MAX = 2000;
+const worldElem = document.querySelector("[data-world");
 
-let nextBuildingTime
-let numBuildings = 0;
+var nextBuildingTime;
+var numBuildings = 0;
 export function setupBuilding() {
     nextBuildingTime = BUILDING_INTERVAL_MIN
     document.querySelectorAll("[data-building").forEach(building => {
@@ -26,24 +26,24 @@ export function updateBuilding(delta, speedScale) {
 
 
     if (nextBuildingTime <= 0) {
-        createBuilding()
-        nextBuildingTime = randomNumberBetween(BUILDING_INTERVAL_MIN, BUILDING_INTERVAL_MAX) / speedScale;
+        createBuilding();
+        nextBuildingTime = (randomNumberBetween(BUILDING_INTERVAL_MIN, BUILDING_INTERVAL_MAX) / speedScale);
     }
-    nextBuildingTime -= delta
+    nextBuildingTime -= delta;
 }
 
 export function getBuildingRect() {
     return [...document.querySelectorAll("[data-building")].map(building => {
         return building.getBoundingClientRect()
-    })
+    });
 }
 
 export function getBuildingCount() {
     return numBuildings;
 }
 
-export function resetBuildingCount() {
-    numBuildings = 0;
+export function setBuildingCount(x) {
+    numBuildings = x;
 }
 
 function createBuilding() {

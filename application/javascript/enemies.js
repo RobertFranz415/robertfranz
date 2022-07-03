@@ -1,18 +1,18 @@
 import { getCustomProperty, incrementCustomProperty, setCustomProperty } from "./updateCustomProperty.js"
 
-const SPEED = 0.05
-const ENEMY_INTERVAL_MIN = 1100
-const ENEMY_INTERVAL_MAX = 5000
-const worldElem = document.querySelector("[data-world")
+const SPEED = 0.05;
+const ENEMY_INTERVAL_MIN = 1100;
+const ENEMY_INTERVAL_MAX = 5000;
+const worldElem = document.querySelector("[data-world");
 
-let nextEnemyTime
+let nextEnemyTime;
 let numEnemies = 0;
 export function setupEnemy() {
-    nextEnemyTime = ENEMY_INTERVAL_MIN
+    nextEnemyTime = ENEMY_INTERVAL_MIN;
     document.querySelectorAll("[data-enemy").forEach(enemy => {
         enemy.remove()
-        
-    })
+
+    });
 }
 
 export function updateEnemy(delta, speedScale) {
@@ -24,24 +24,23 @@ export function updateEnemy(delta, speedScale) {
         }
     })
 
-
     if (nextEnemyTime <= 0) {
-        createEnemy()
-        nextEnemyTime = randomNumberBetween(ENEMY_INTERVAL_MIN, ENEMY_INTERVAL_MAX) / speedScale;
+        createEnemy();
+        nextEnemyTime = (randomNumberBetween(ENEMY_INTERVAL_MIN, ENEMY_INTERVAL_MAX) / speedScale);
     }
-    nextEnemyTime -= delta
+    nextEnemyTime -= delta;
 }
 
 export function getEnemyRect() {
     return [...document.querySelectorAll("[data-enemy")].map(enemy => {
-        return enemy.getBoundingClientRect()
-    })
+        return enemy.getBoundingClientRect();
+    });
 }
 export function removeEnemy() {
     document.querySelectorAll("[data-enemy").forEach(enemy => {
         enemy.remove()
-        
-    })
+
+    });
 }
 
 export function getEnemyCount() {
@@ -62,5 +61,5 @@ function createEnemy() {
 }
 
 function randomNumberBetween(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }

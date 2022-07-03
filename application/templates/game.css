@@ -44,8 +44,9 @@
 
 .ufo {
     --bottom: 0;
+    --left: 0;
     position: absolute;
-    left: 2%;
+    left: calc(var(--left) * 1%);
     height: 30%;
     bottom: calc(var(--bottom) * 1%);
 }
@@ -68,8 +69,9 @@
 
 .laser {
     --bottom: 0;
+    --left: 4;
     position: absolute;
-    left: 6%;
+    left: calc(var(--left) * 1%);
     bottom: calc(var(--bottom) * 1%);
 }
 

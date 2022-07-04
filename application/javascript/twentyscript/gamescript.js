@@ -2,6 +2,7 @@ import Grid from "./grid.js";
 import Tile from "./tile.js";
 
 const gameBoard = document.getElementById("game-board");
+const msgElem = document.querySelector('[data-msg]');
 
 const grid = new Grid(gameBoard);
 grid.randomEmptyCell().tile = new Tile(gameBoard);
@@ -55,7 +56,7 @@ async function handleInput(e) {
 
     if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()){
         newTile.waitForTransition(true).then(() => {
-            alert("You lost!")
+            handleLoss();
         })
         return
     }
@@ -132,4 +133,12 @@ function canMove(cells) {
             return moveToCell.canAccept(cell.tile)
         })
     })
+}
+
+function handleLoss() {
+    msgElem.innerHTML = 
+    `<div id="msg-container">
+        <div id="msg">No more possible moves </div>
+        <div id="refresh" onClick="window.location.reload();">Play Again</div>
+    </div>`;
 }

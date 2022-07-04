@@ -22,6 +22,7 @@
     border-radius: 1vmin;
     padding: var(--cell-gap);
     position: relative;
+    border: 2px solid aliceblue;
 }
 
 .cell {
@@ -36,13 +37,13 @@
     align-items: center;
     width: var(--cell-size);
     height: var(--cell-size);
-    background-color: red;
+    
     border-radius: 1vmin;
     top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
     left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
     font-weight: bold;
-    background-color: hsl(200, 50%, var(--background-lightness));
-    color: hsl(200, 25%, var(--text-lightness));
+    background-color: hsl(180, 50%, var(--background-lightness));
+    color: hsl(180, 25%, var(--text-lightness));
     animation: show 200ms ease-in-out;
     transition: 100ms ease-in-out;
 }
@@ -52,4 +53,46 @@
         opacity: .5;
         transform: scale(0);
     }
+}
+
+#game-msg {
+    color: aliceblue;
+    background-color: #383c42;
+    z-index: 1;
+    position: absolute;
+    border-radius: 1vmin;
+}
+
+#msg-container {
+    display: grid;
+    border: 2px solid aliceblue;
+    border-radius: 1vmin;
+    
+    font-size: 3vmin;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "message"
+    "button";
+}
+
+#msg {
+    grid-area: message;
+    display: flex;
+    padding: 10px;
+}
+
+#refresh {
+    grid-area: button;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    background-color: #383c42;
+    padding: 10px;
+
+    
+}
+#refresh:hover {
+    cursor: pointer;
+    background-color: #41454d;
 }

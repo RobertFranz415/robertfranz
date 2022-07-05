@@ -84,6 +84,10 @@ export function getHorizontal() {
     return horizontal;
 }
 
+export function setHorizontal(x) {
+    horizontal = x;
+}
+
 export function moveShip(e) {
     if (!getIsPlaying()) return;
 

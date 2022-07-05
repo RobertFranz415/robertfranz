@@ -3,14 +3,14 @@ import { setupUfo, updateUfo, getUfoRect, setUfoLose, getIsJumping, getHeight, g
 import { removeEnemy } from "./enemies.js";
 import { getIsPlaying, lowerScore } from "./gamescript.js";
 
-const worldElem = document.querySelector("[data-world")
+const worldElem = document.querySelector("[data-world]")
 
 let laserTime;
 let isShooting;
 let firetime = 99999;
 
 export function setupLaser() {
-    document.querySelectorAll("[data-laser").forEach(laser => {
+    document.querySelectorAll("[data-laser]").forEach(laser => {
         laser.remove()
 
     })

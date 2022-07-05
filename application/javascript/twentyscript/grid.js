@@ -37,9 +37,21 @@ export default class Grid {
         return this.#cells.filter(cell => cell.tile == null)
     }
 
+    get #fullCells() {
+        return this.#cells.filter(cell => cell.tile != null)
+    }
+
     randomEmptyCell() {
         const randomIndex = Math.floor(Math.random() * this.#emptyCells.length);
         return this.#emptyCells[randomIndex]
+    }
+
+    cellsScore() {
+        //let sum = 0;
+        return this.#fullCells.reduce((sum, cell) => {
+            return sum += cell.tile.value;
+        }, 0)
+        
     }
 }
 

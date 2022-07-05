@@ -3,6 +3,7 @@ import Tile from "./tile.js";
 
 const gameBoard = document.getElementById("game-board");
 const msgElem = document.querySelector('[data-msg]');
+const scoreElem = document.querySelector('[data-score]');
 
 const grid = new Grid(gameBoard);
 grid.randomEmptyCell().tile = new Tile(gameBoard);
@@ -53,7 +54,7 @@ async function handleInput(e) {
 
     const newTile = new Tile(gameBoard)
     grid.randomEmptyCell().tile = newTile;
-
+    getScore();
     if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()){
         newTile.waitForTransition(true).then(() => {
             handleLoss();
@@ -81,6 +82,7 @@ function moveRight() {
 }
 
 function slideTiles(cells) {
+    
     return Promise.all(
     cells.flatMap(group => {
         const promises = []
@@ -138,7 +140,15 @@ function canMove(cells) {
 function handleLoss() {
     msgElem.innerHTML = 
     `<div id="msg-container">
+        <div id="score">Final Score: ${getScore()}</div>
         <div id="msg">No more possible moves </div>
         <div id="refresh" onClick="window.location.reload();">Play Again</div>
     </div>`;
+}
+
+function getScore() {
+    let str = grid.cellsScore().toString();;
+    let cur_str = str.padStart(4, '0');
+    scoreElem.innerHTML = cur_str;
+    return str;
 }

@@ -1,5 +1,5 @@
 import { setupGround, updateGround } from './ground.js'
-import { setupUfo, updateUfo, getUfoRect, setUfoLose, onJump, moveShip } from './ufoscript.js'
+import { setupUfo, updateUfo, getUfoRect, setUfoLose, onJump, moveShip, setHorizontal } from './ufoscript.js'
 import { setupBuilding, updateBuilding, getBuildingRect, getBuildingCount, setBuildingCount } from './building.js'
 import { setupEnemy, updateEnemy, getEnemyRect } from './enemies.js'
 import { onShoot, setupLaser, updateLaser } from './laser.js'
@@ -93,6 +93,7 @@ function handleStart() {
     setupBuilding();
     setupLaser();
     setupEnemy();
+    setHorizontal(0);
     startScreenElem.classList.add("hide")
     window.requestAnimationFrame(update);
     isPlaying = true;

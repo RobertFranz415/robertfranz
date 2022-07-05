@@ -45,4 +45,8 @@ router.get('/tfe', (req, res, next) => {
     res.render('twenty', {title:"Number Game"});
 });
 
+router.get('/wordle', (req, res, next) => {
+    res.render('wordle', {title:"Wordle"});
+});
+
 module.exports = router;

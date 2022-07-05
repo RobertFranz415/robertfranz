@@ -7,10 +7,11 @@
 
     display: flex;
     justify-content: center;
-    align-items: center;
+    position: relative;
     height: 90vh;
     margin: 0;
     font-size: 7.5vmin;
+    gap:1vmin
 }
 
 #game-board {
@@ -61,24 +62,38 @@
     z-index: 1;
     position: absolute;
     border-radius: 1vmin;
+
+    opacity: .9;
+    
 }
 
 #msg-container {
     display: grid;
     border: 2px solid aliceblue;
     border-radius: 1vmin;
-    
     font-size: 3vmin;
     grid-template-columns: auto;
     grid-template-rows: auto;
     grid-template-areas: 
+    "score"
     "message"
     "button";
+}
+
+#score {
+    grid-area: score;
+    display: flex;
+    padding: 10px;
+    align-self: center;
+    justify-self: center;
+    margin: 1vmin;
 }
 
 #msg {
     grid-area: message;
     display: flex;
+    align-self: center;
+    justify-self: center;
     padding: 10px;
 }
 
@@ -87,12 +102,25 @@
     display: flex;
     align-self: center;
     justify-self: center;
-    background-color: #383c42;
+    /* background-color: #383c42; */
+    background-color: #13E8E9;
     padding: 10px;
-
-    
+    border-radius: 1vmin;
+    border: 2px solid aliceblue;
+    margin: 1vmin;
 }
 #refresh:hover {
     cursor: pointer;
-    background-color: #41454d;
+    background-color: #11c5c5;
+}
+
+#cur-score {
+    display: flex;
+    color: aliceblue;
+    align-self: flex-start;
+    position: relative;
+    justify-self: flex-start;
+    
+    flex-shrink: 3;
+ 
 }

@@ -46,7 +46,8 @@ async function handleInput(e) {
             await moveRight()
             break
         default:
-            setupInput
+            setupInput();
+            return;
             break
     }
 

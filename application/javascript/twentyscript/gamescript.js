@@ -13,6 +13,11 @@ setupInput();
 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
+    window.addEventListener("keydown", removeMsg, { once: true })
+}
+
+function removeMsg() {
+    msgElem.classList.add("hide");
 }
 
 async function handleInput(e) {
@@ -139,6 +144,7 @@ function canMove(cells) {
 }
 
 function handleLoss() {
+    msgElem.classList.remove("hide");
     msgElem.innerHTML = 
     `<div id="msg-container">
         <div id="score">Final Score: ${getScore()}</div>

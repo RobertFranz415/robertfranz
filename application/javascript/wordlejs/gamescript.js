@@ -15290,25 +15290,34 @@ const targetWords = [
     "shave"
 ]
 
-const WORD_LENGTH = 5
-const FLIP_ANIMATION_DURATION = 500
-const DANCE_ANIMATION_DURATION = 500
+const WORD_LENGTH = 5;
+const FLIP_ANIMATION_DURATION = 500;
+const DANCE_ANIMATION_DURATION = 500;
 
-const keyboard = document.querySelector("[data-keyboard]")
-const alertContainer = document.querySelector("[data-alert-container]")
-const guessGrid = document.querySelector("[data-guess-grid]")
-const offsetFromDate = new Date(2022, 5, 7)
-const msOffset = Date.now() - offsetFromDate
-const dayOffset = msOffset / 1000 / 60 / 60 / 24
-const targetWord = targetWords[Math.floor(dayOffset)]
+const keyboard = document.querySelector("[data-keyboard]");
+const alertContainer = document.querySelector("[data-alert-container]");
+const guessGrid = document.querySelector("[data-guess-grid]");
+const msgElem = document.querySelector("[data-message]");
+
+const offsetFromDate = new Date(2022, 5, 7);
+const msOffset = Date.now() - offsetFromDate;
+const dayOffset = msOffset / 1000 / 60 / 60 / 24;
+const targetWord = targetWords[Math.floor(dayOffset)];
+let numGuess = 0;
+var history = [];
+var currRes = [];
 
 function sayWord(targetWord) {
     console.log(targetWord);
 }
 
-startGame()
+startGame();
+//sayWord(targetWord);
 
 function startGame() {
+    history.push(currRes);
+    console.log(history)
+    currRes = [];
     document.addEventListener("click", handleMouseClick)
     document.addEventListener("keydown", handleKeyPress)
 }
@@ -15376,6 +15385,7 @@ function submitGuess() {
         shakeTiles(activeTiles);
         return;
     }
+    numGuess++;
     const guessTiles = activeTiles.reduce((word, tile) => {
         return word + tile.dataset.letter;
     }, "")
@@ -15386,13 +15396,16 @@ function submitGuess() {
         return;
     }
 
+
     endGame();
     activeTiles.forEach((...params) => flipTile(...params, guessTiles));
+
 }
 
 function flipTile(tile, index, array, guess) {
     const letter = tile.dataset.letter;
     const key = keyboard.querySelector(`[data-key="${letter}"i]`);
+
     setTimeout(() => {
         tile.classList.add("flip")
     }, (index * FLIP_ANIMATION_DURATION) / 2)
@@ -15404,12 +15417,15 @@ function flipTile(tile, index, array, guess) {
             if (targetWord[index] === letter) {
                 tile.dataset.state = "correct";
                 key.classList.add("correct");
+                currRes.push("correct");
             } else if (targetWord.includes(letter)) {
                 tile.dataset.state = "wrong-location";
                 key.classList.add("wrong-location");
+                currRes.push("wrong-loc");
             } else {
                 tile.dataset.state = "wrong";
                 key.classList.add("wrong");
+                currRes.push("wrong");
             }
 
             if (index === array.length - 1) {
@@ -15459,18 +15475,100 @@ function shakeTiles(tiles) {
     })
 }
 
+function removeOverlay() {
+
+    msgElem.classList.add("hidden");
+    let exitElem = document.querySelector("[data-exit]")
+    exitElem.removeEventListener("click", removeOverlay, { once : true})
+}
+
+function showAns() {
+    let ansElem = document.querySelector("[data-show-ans]")
+    ansElem.innerHTML = targetWord.toUpperCase();
+    
+}
+
+function showHistory() {
+    let historyElem = document.querySelector("[data-history]");
+    let str = ``;
+    for (let i = 1; i < history.length; i++){
+        let num = i+1;
+        str += `<div class="history-row">
+                    <div class="row-name">Attempt ${i}: </div>`;
+        for (let j = 0; j < 5; j++) {
+            if (history[i][j] === "correct") {
+                str += `<div class="material-symbols-outlined correct1">check_box </div>`
+            } else if (history[i][j] === "wrong-loc") {
+                str += `<div class="material-symbols-outlined wrong-loc1">indeterminate_check_box </div>`
+            } else {
+                str += `<div class="material-symbols-outlined wrong1">disabled_by_default </div>`
+            }
+            
+        }
+        str += `</div>`
+    }
+    historyElem.innerHTML = str;
+}
+
+function showResults(results) {
+    console.log(history);
+    if (results){
+        msgElem.innerHTML = `
+        <div class="result-overlay">
+            <div class="result-container">
+                <div class="res-space"></div>
+                <div class="exit-btn material-symbols-outlined" data-exit >close</div>
+                <div class="res">Correct!</div>
+                <div class="answer">The word was ${targetWord.toUpperCase()}</div>
+                <div class="statistics"> Took ${numGuess} attempt(s) </div>
+                <div class="history-cont" data-history >
+
+                </div>
+            </div>
+        </div>
+        `;
+    } else {
+        msgElem.innerHTML = `
+        <div class="result-overlay">
+            <div class="result-container">
+                <div class="res-space"></div>
+                <div class="exit-btn" data-exit >X</div>
+                <div class="res">Out of guesses, maybe next time.</div>
+                <div class="show-answer" data-show-ans >Click here to see the answer</div>
+                
+                <div class="statistics"> Used up all attempts </div>
+                <div class="history-cont" data-history>
+
+                </div>
+            </div>
+        </div>
+        `;
+        
+    let showAnsElem = document.querySelector("[data-show-ans]");
+    showAnsElem.addEventListener("click", showAns, { once : true});
+    }
+    showHistory();
+    let exitElem = document.querySelector("[data-exit]");
+    exitElem.addEventListener("click", removeOverlay, { once : true});
+
+}
+
+
+
 function checkWinLose(guess, tiles) {
     if (guess === targetWord) {
         showAlert("You Win", 5000)
         danceTiles(tiles)
-        stopInteraction()
+        showResults(true);
+        endGame()
         return
     }
 
     const remainingTiles = guessGrid.querySelectorAll(":not([data-letter])")
     if (remainingTiles.length === 0) {
-        showAlert(targetWord.toUpperCase(), null)
-        stopInteraction()
+        //showAlert(targetWord.toUpperCase(), null)
+        showResults(false);
+        endGame()
     }
 }
 

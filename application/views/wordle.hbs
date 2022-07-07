@@ -1,10 +1,36 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="/wordle.css" />
-    <script src="/wordlejs/gamescript.js" defer type="module"></script>
+  <link rel="stylesheet" type="text/css" href="/wordle.css" />
+  <script src="/wordlejs/gamescript.js" defer type="module"></script>
 </head>
 
 <div id="wordle-container">
-    <div class="alert-container" data-alert-container></div>
+  <div class="alert-container" data-alert-container></div>
+  <div class="result" data-message>
+{{!-- 
+            <div class="result-overlay">
+            <div class="result-container">
+                <div class="res-space"></div>
+                <div class="exit-btn" data-exit >X</div>
+                <div class="res">Correct!</div>
+                <div class="answer">The word was ${targetWord.toUpperCase()}</div>
+                <div class="statistics"> Took ${numGuess} attempt(s) </div>
+                <div class="history-cont">
+                    <div class="history-row">
+                      <div class="row-name">Attempt 1: </div>
+                      <div class="material-symbols-outlined correct">check_box </div>
+                      <div class="material-symbols-outlined wrong-loc">indeterminate_check_box </div>
+                      <div class="material-symbols-outlined wrong">disabled_by_default </div>
+                      <div class="material-symbols-outlined wrong">disabled_by_default </div>
+                      <div class="material-symbols-outlined correct">check_box </div>
+                    </div>
+                    <div class="history-row">GREY GREY GREY GREEN YELLOW</div> 
+                    <div class="history-row">GREY GREY GREY GREEN YELLOW</div> 
+                    <div class="history-row">GREY GREY GREY GREEN YELLOW</div>  
+                </div>
+            </div>
+        </div> --}}
+
+  </div>
   <div data-guess-grid class="guess-grid">
     <div class="tile"></div>
     <div class="tile"></div>

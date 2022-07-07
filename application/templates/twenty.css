@@ -72,6 +72,10 @@
     border: 2px solid aliceblue;
     border-radius: 1vmin;
     font-size: 3vmin;
+    justify-self: center;
+    align-self: center;
+    justify-content: center;
+    align-content: center;
     grid-template-columns: auto;
     grid-template-rows: auto;
     grid-template-areas: 
@@ -92,8 +96,8 @@
 #msg {
     grid-area: message;
     display: flex;
-    align-self: center;
-    justify-self: center;
+    flex-wrap: wrap;
+
     padding: 10px;
 }
 
@@ -123,4 +127,8 @@
     
     flex-shrink: 3;
  
+}
+
+.hide {
+    display: none;
 }

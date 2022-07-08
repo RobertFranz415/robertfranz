@@ -1,4 +1,4 @@
-import { dictionary, targetWords } from "./variables.js";
+import { getDict, getTargetWords } from "./variables.js";
 
 const WORD_LENGTH = 5;
 const FLIP_ANIMATION_DURATION = 500;
@@ -12,30 +12,31 @@ const msgElem = document.querySelector("[data-message]");
 const offsetFromDate = new Date(2022, 5, 7);
 const msOffset = Date.now() - offsetFromDate;
 const dayOffset = msOffset / 1000 / 60 / 60 / 24;
-const targetWord = targetWords[Math.floor(dayOffset)];
-let numGuess = 0;
-var history = [];
-var currRes = [];
-var temp = [];
+const list = getTargetWords();
+const dictList = getDict();
+const targetWord = list[Math.floor(dayOffset)];
+let numGuess = 0;  // keeps track of the number of guesses
+var history = [];  // keeps track of the results of the player's guesses
+var currRes = [];  // the current guess results
+var temp = [];     // array of char in target word used to keep track of the previous letters in a guess
 
 function sayWord(targetWord) {
     console.log(targetWord);
 }
 
-startGame();
+startGuess();
 //sayWord(targetWord);
 
-function startGame() {
-    history.push(currRes);
-    //console.log(history)
-    currRes = [];
-    document.addEventListener("click", handleMouseClick)
-    document.addEventListener("keydown", handleKeyPress)
+function startGuess() {
+    history.push(currRes);  // pushes the current guess into history
+    currRes = [];  // resets current guess
+    document.addEventListener("click", handleMouseClick);
+    document.addEventListener("keydown", handleKeyPress);
 }
 
-function endGame() {
-    document.removeEventListener("click", handleMouseClick)
-    document.removeEventListener("keydown", handleKeyPress)
+function endGuess() {
+    document.removeEventListener("click", handleMouseClick);
+    document.removeEventListener("keydown", handleKeyPress);
 }
 
 function handleMouseClick(e) {
@@ -55,24 +56,29 @@ function handleMouseClick(e) {
 
 function handleKeyPress(e) {
     if (e.key === "Enter") {
-        submitGuess()
-        return
+        submitGuess();
+        return;
     }
 
     if (e.key === "Backspace" || e.key === "Delete") {
-        deleteKey()
-        return
+        deleteKey();
+        return;
     }
 
+    //if keu pressed is a letter
     if (e.keyCode >= 65 && e.keyCode <= 90) {
-        pressKey(e.key)
-        return
+        pressKey(e.key);
+        return;
     }
 }
 
 function pressKey(key) {
     const activeTiles = getActiveTiles();
+
+    // if there are already 5 letters entered, return
     if (activeTiles.length >= WORD_LENGTH) return;
+
+    // enter the letter into the next empty tile
     const nextTile = guessGrid.querySelector(":not([data-letter])");
     nextTile.dataset.letter = key.toLowerCase();
     nextTile.textContent = key;
@@ -83,13 +89,19 @@ function pressKey(key) {
 function deleteKey() {
     const activeTiles = getActiveTiles();
     const lastActiveTile = activeTiles[activeTiles.length - 1];
+
+    // if there are no letters entered, return
     if (lastActiveTile == null) return;
+
+    // clear last tile
     lastActiveTile.textContent = "";
     delete lastActiveTile.dataset.state;
     delete lastActiveTile.dataset.letter;
 }
 
 function submitGuess() {
+    // if there are not 5 letters entered or if the word guessed 
+    // is not in the dictionary, return
     const activeTiles = [...getActiveTiles()];
     if (activeTiles.length !== WORD_LENGTH) {
         showAlert("Not enough letters");
@@ -101,14 +113,17 @@ function submitGuess() {
         return word + tile.dataset.letter;
     }, "")
 
-    if (!dictionary.includes(guessTiles)) {
+    if (!dictList.includes(guessTiles)) {
         showAlert("Not in dictionary");
         shakeTiles(activeTiles);
         return;
     }
+
+    // otherwise, increment the guess count, create a copy of the target word we can change,
+    // and flip over each tile
     numGuess++;
     temp = targetWord.split('');
-    endGame();
+    endGuess();
     activeTiles.forEach((...params) => flipTile(...params, guessTiles));
 
 }
@@ -117,44 +132,49 @@ function flipTile(tile, index, array, guess) {
     const letter = tile.dataset.letter;
     const key = keyboard.querySelector(`[data-key="${letter}"i]`);
     
+    // flips each tile one at a time, only flips half way
     setTimeout(() => {
-        tile.classList.add("flip")
-    }, (index * FLIP_ANIMATION_DURATION) / 2)
+        tile.classList.add("flip")}, 
+        ((index * FLIP_ANIMATION_DURATION) / 2));
     
+    // once tile is fliped half way, deteremine result of tile, change it's properties to match
+    // the result and flip back the other way to appear as a full flip
     tile.addEventListener(
         "transitionend",
         () => {
-            //console.log(temp)
             tile.classList.remove("flip")
             if (temp[index] === letter) {
                 tile.dataset.state = "correct";
                 key.classList.add("correct");
                 currRes.push("correct");
-                //console.log(temp.indexOf(letter, 0))
-                temp[temp.indexOf(letter, 0)] = 1;
+                /* replace indec of temp so that it does not affect the results
+                   of the next letters in the guess  */
+                temp[temp.indexOf(letter, 0)] = "*";
             } else if (temp.includes(letter)) {
                 tile.dataset.state = "wrong-location";
                 key.classList.add("wrong-location");
                 currRes.push("wrong-loc");
-                //console.log(temp.indexOf(letter, 0))
-                temp[temp.indexOf(letter, 0)] = 2;
+                /* replace indec of temp so that it does not affect the results
+                   of the next letters in the guess  */
+                temp[temp.indexOf(letter, 0)] = "*";
             } else {
                 tile.dataset.state = "wrong";
                 key.classList.add("wrong");
                 currRes.push("wrong");
             }
 
+            // if all tiles have been flipped, check if the guess was correct
+            // if not, guess again
             if (index === array.length - 1) {
                 tile.addEventListener(
                     "transitionend",
                     () => {
-                        startGame()
+                        startGuess()
                         checkWinLose(guess, array);
                     },
                     { once: true }
                 )
             }
-            
         },
         { once: true }
     )
@@ -194,7 +214,6 @@ function shakeTiles(tiles) {
 }
 
 function removeOverlay() {
-
     msgElem.classList.add("hidden");
     let exitElem = document.querySelector("[data-exit]")
     exitElem.removeEventListener("click", removeOverlay, { once : true})
@@ -203,23 +222,21 @@ function removeOverlay() {
 function showAns() {
     let ansElem = document.querySelector("[data-show-ans]")
     ansElem.innerHTML = targetWord.toUpperCase();
-    
 }
 
 function showHistory() {
     let historyElem = document.querySelector("[data-history]");
     let str = ``;
     for (let i = 1; i < history.length; i++){
-        let num = i+1;
         str += `<div class="history-row">
                     <div class="row-name">Attempt ${i}: </div>`;
         for (let j = 0; j < 5; j++) {
             if (history[i][j] === "correct") {
-                str += `<div class="material-symbols-outlined correct1">check_box </div>`
+                str += `<div class="material-symbols-outlined correct1 nohover">check_box </div>`
             } else if (history[i][j] === "wrong-loc") {
-                str += `<div class="material-symbols-outlined wrong-loc1">indeterminate_check_box </div>`
+                str += `<div class="material-symbols-outlined wrong-loc1 nohover ">indeterminate_check_box </div>`
             } else {
-                str += `<div class="material-symbols-outlined wrong1">disabled_by_default </div>`
+                str += `<div class="material-symbols-outlined wrong1 nohover">disabled_by_default </div>`
             }
             
         }
@@ -229,7 +246,6 @@ function showHistory() {
 }
 
 function showResults(results) {
-    //console.log(history);
     if (results){
         msgElem.innerHTML = `
         <div class="result-overlay">
@@ -253,7 +269,6 @@ function showResults(results) {
                 <div class="exit-btn" data-exit >X</div>
                 <div class="res">Out of guesses, maybe next time.</div>
                 <div class="show-answer" data-show-ans >Click here to see the answer</div>
-                
                 <div class="statistics"> Used up all attempts </div>
                 <div class="history-cont" data-history>
 
@@ -273,18 +288,18 @@ function showResults(results) {
 
 function checkWinLose(guess, tiles) {
     if (guess === targetWord) {
-        showAlert("You Win", 5000)
-        danceTiles(tiles)
+        //showAlert("You Win", 5000);
+        danceTiles(tiles);
         showResults(true);
-        endGame()
-        return
+        endGuess();
+        return;
     }
 
     const remainingTiles = guessGrid.querySelectorAll(":not([data-letter])")
     if (remainingTiles.length === 0) {
         //showAlert(targetWord.toUpperCase(), null)
         showResults(false);
-        endGame()
+        endGuess();
     }
 }
 

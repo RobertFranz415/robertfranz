@@ -1,4 +1,4 @@
-export const dictionary = [
+const dictionary = [
     "aahed",
     "aalii",
     "aargh",
@@ -12973,7 +12973,7 @@ export const dictionary = [
     "shave"
 ]
 
-export const targetWords = [
+const targetWords = [
     "cigar",
     "rebut",
     "sissy",
@@ -15290,3 +15290,11 @@ export const targetWords = [
     "rural",
     "shave"
 ]
+
+export function getDict() {
+    return dictionary;
+}
+
+export function getTargetWords() {
+    return targetWords;
+}

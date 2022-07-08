@@ -248,7 +248,7 @@
     grid-row: 1;
     grid-column: span 1;
     cursor: pointer;
-    background-color: hsl(240, 1%, 13%);
+    padding-top: 2vmin;
 }
 
 .res {
@@ -296,6 +296,7 @@
     position: relative;
     grid-template-rows: repeat(auto, 1em);
     grid-template-columns: auto;
+    padding-bottom: 3vmin;
 }
 
 .history-row {
@@ -314,8 +315,8 @@
   'wght' 400,
   'GRAD' 0,
   'opsz' 48;
-  
 }
+
 .correct1 {
     color: hsl(115, 29%, 43%);
 }
@@ -325,6 +326,11 @@
 
 .wrong1 {
     color: hsl(240, 2%, 23%);
+}
+
+.nohover {
+    pointer-events: none;
+    user-select: none;
 }
 
 /*

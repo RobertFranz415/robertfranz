@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     font-family: Arial;
 }
@@ -11,7 +13,7 @@
     height: 90vh;
     margin: 0;
     font-size: 7.5vmin;
-    gap:1vmin
+    gap: 1vmin
 }
 
 #game-board {
@@ -38,7 +40,7 @@
     align-items: center;
     width: var(--cell-size);
     height: var(--cell-size);
-    
+
     border-radius: 1vmin;
     top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
     left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
@@ -63,14 +65,28 @@
     position: absolute;
     border-radius: 1vmin;
 
-    opacity: .9;
-    
+}
+
+
+.msg-overlay {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(18, 18, 19, .5);
+    z-index: 1;
+    color: aliceblue;
+    gap: 2vmin;
 }
 
 #msg-container {
     display: grid;
-    border: 2px solid aliceblue;
-    border-radius: 1vmin;
+    background-color: #121213;
+
     font-size: 3vmin;
     justify-self: center;
     align-self: center;
@@ -78,10 +94,10 @@
     align-content: center;
     grid-template-columns: auto;
     grid-template-rows: auto;
-    grid-template-areas: 
-    "score"
-    "message"
-    "button";
+    grid-template-areas:
+        "score"
+        "message"
+        "button";
 }
 
 #score {
@@ -97,8 +113,18 @@
     grid-area: message;
     display: flex;
     flex-wrap: wrap;
+    align-self: center;
+    justify-self: center;
+    align-content: center;
+    justify-content: center;
+    padding: 2vmin;
+}
 
-    padding: 10px;
+.msg-title {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    padding-top: 2vmin;
 }
 
 #refresh {
@@ -107,12 +133,13 @@
     align-self: center;
     justify-self: center;
     /* background-color: #383c42; */
-    background-color: #13E8E9;
+    background-color: hsl(180, 85%, 35%);
     padding: 10px;
-    border-radius: 1vmin;
-    border: 2px solid aliceblue;
+    padding-bottom: 1vmin;
+
     margin: 1vmin;
 }
+
 #refresh:hover {
     cursor: pointer;
     background-color: #11c5c5;
@@ -124,9 +151,9 @@
     align-self: flex-start;
     position: relative;
     justify-self: flex-start;
-    
+
     flex-shrink: 3;
- 
+
 }
 
 .hide {

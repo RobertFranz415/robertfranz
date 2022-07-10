@@ -18,8 +18,21 @@ function startGame() {
 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
+    window.addEventListener("click", handleClick, { once: true})
 }
 
+function handleClick(e) {
+    if (e.target.matches("[data-num]")){
+        grid.cells[activeCell].setFalse();
+        
+        activeCell = Number(e.target.dataset.num);
+        grid.cells[activeCell].setActive();
+    }
+
+
+    setupInput();
+}
+ 
 async function handleInput(e) {
 
     if (e.key === "ArrowUp") {
@@ -162,6 +175,8 @@ function submitNums() {
         solveSudoku(board);
         console.log(board)
         complete(board);
+    } else {
+        alert("No Possible Solutions")
     }
 }
 

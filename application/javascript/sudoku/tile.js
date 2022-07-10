@@ -8,6 +8,7 @@ export default class Tile {
     constructor(tileContainer, value, x, y, active) {
         this.#tileElement = document.createElement("div");
         this.#tileElement.classList.add("tile")
+        this.#tileElement.dataset.num = (x  + (y * 9))
         tileContainer.append(this.#tileElement);
         this.value = value;
         this.x = x;

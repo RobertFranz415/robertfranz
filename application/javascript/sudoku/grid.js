@@ -160,6 +160,7 @@ function createCellElements(gridElement) {
     for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
+        cell.dataset.num = i;
         cells.push(cell);
         gridElement.append(cell);
     }

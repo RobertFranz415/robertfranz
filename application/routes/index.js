@@ -49,4 +49,8 @@ router.get('/wordle', (req, res, next) => {
     res.render('wordle', {title:"Wordle"});
 });
 
+router.get('/sudoku', (req, res, next) => {
+    res.render('sudoku', {title:"Sudoku"});
+});
+
 module.exports = router;

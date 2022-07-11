@@ -2,6 +2,7 @@ import Grid from "./grid.js";
 import Tile from "./tile.js";
 
 const gameBoard = document.getElementById("game-board");
+const alertContainer = document.querySelector("[data-alert-container]");
 
 const grid = new Grid(gameBoard);
 var activeCell = 0;
@@ -9,10 +10,7 @@ setupInput();
 startGame();
 
 function startGame() {
-    //const newTile = new Tile(gameBoard)
-    //grid.cells[0] = newTile;
     grid.cells[activeCell].setActive();
-    //console.log(grid.cells[0].active);
 }
 
 
@@ -23,10 +21,19 @@ function setupInput() {
 
 function handleClick(e) {
     if (e.target.matches("[data-num]")){
+
+        if (grid.cells[activeCell].tile) {
+            grid.cells[activeCell].tile.active = false;
+        }
+
         grid.cells[activeCell].setFalse();
-        
         activeCell = Number(e.target.dataset.num);
         grid.cells[activeCell].setActive();
+
+        // if there is a tile on the previous cell, set it to inactive
+        if (grid.cells[activeCell].tile) {
+            grid.cells[activeCell].tile.active = true;
+        }
     }
 
 
@@ -37,31 +44,31 @@ async function handleInput(e) {
 
     if (e.key === "ArrowUp") {
         if (!canMoveUp()) {
-            setupInput()
-            return
+            move(72)
+        } else {
+            move(-9)
         }
-        await move("up")
 
     } else if (e.key === "ArrowDown") {
         if (!canMoveDown()) {
-            setupInput()
-            return
+            move(-72)
+        } else {
+            move(9)
         }
-        await move("down")
 
     } else if (e.key === "ArrowLeft") {
         if (!canMoveLeft()) {
-            setupInput()
-            return
+            move(8)
+        } else {
+            move(-1)
         }
-        await move("left")
 
     } else if (e.key === "ArrowRight") {
         if (!canMoveRight()) {
-            setupInput()
-            return
+            move(-8)
+        } else {
+            move(1)
         }
-        await move("right")
 
     } else if (e.key.match(/^[1-9]$/)) {
         inputValue(e.key);
@@ -97,35 +104,19 @@ function canMoveRight() {
 
     return grid.activeCell()[0].x !== 8;
 }
-//       this.#tileElement.style.setProperty("--background-lightness", `${backgroundLightness}%`)
 
 function move(dir) {
+    // if there is a tile on the previous cell, set it to inactive
     if (grid.cells[activeCell].tile) {
         grid.cells[activeCell].tile.active = false;
     }
     
-    switch(dir) {
-        case "up":
-            grid.cells[activeCell].setFalse();
-            activeCell -= 9;
-            grid.cells[activeCell].setActive();
-            break
-        case "down":
-            grid.cells[activeCell].setFalse();
-            activeCell += 9;
-            grid.cells[activeCell].setActive();
-            break
-        case "left":
-            grid.cells[activeCell].setFalse();
-            activeCell -= 1;
-            grid.cells[activeCell].setActive();
-            break
-        case "right":
-            grid.cells[activeCell].setFalse();
-            activeCell += 1;
-            grid.cells[activeCell].setActive();
-            break
-    }
+    // updates the active cell
+    grid.cells[activeCell].setActive();
+    activeCell += dir;
+    grid.cells[activeCell].setActive();
+
+    // if there is a tile on the previous cell, set it to inactive
     if (grid.cells[activeCell].tile) {
         grid.cells[activeCell].tile.active = true;
     }
@@ -136,7 +127,8 @@ function inputValue(val) {
     if (grid.activeCell()[0].tile) {
         grid.activeCell()[0].removeTile();
     }
-    grid.activeCell()[0].tile = new Tile(gameBoard, val, activeCell % 9, Math.floor(activeCell / 9, true));
+    grid.activeCell()[0].tile = new Tile(gameBoard, val, activeCell % 9, Math.floor(activeCell / 9), true);
+    grid.activeCell()[0].tile.flip();
 }
 
 // Enters tile from whatever location given
@@ -144,7 +136,8 @@ function enterTile(location, value) {
     if (grid.cells[location].tile) {
         grid.cells[location].removeTile();
     }
-    grid.cells[location].tile = new Tile(gameBoard, value, location % 9, Math.floor(location / 9, true))
+    grid.cells[location].tile = new Tile(gameBoard, value, location % 9, Math.floor(location / 9), true);
+    // grid.cells[location].tile.flip(); // can be obnoxious if all flip at once
 }
 
 function deleteActive() {
@@ -170,13 +163,19 @@ function submitNums() {
         board.push(temp);
     }
 
-    console.log(isValidSudoku(board));
     if (isValidSudoku(board)) {
         solveSudoku(board);
-        console.log(board)
+
+        for (let i = 0; i < 9; i++) {
+            if (board[i].includes(".")) {
+                showAlert("No possible solutions from current board");
+                break;
+            }
+        }
+        
         complete(board);
     } else {
-        alert("No Possible Solutions")
+        showAlert("No Possible Solutions")
     }
 }
 
@@ -273,4 +272,19 @@ function complete(board) {
         if (temp[i] === ".") continue;
         enterTile(i, temp[i])
     }
+}
+
+function showAlert(message, duration = 1000) {
+    const alert = document.createElement("div")
+    alert.textContent = message
+    alert.classList.add("alert")
+    alertContainer.prepend(alert)
+    if (duration == null) return
+
+    setTimeout(() => {
+        alert.classList.add("hide")
+        alert.addEventListener("transitionend", () => {
+            alert.remove()
+        })
+    }, duration)
 }

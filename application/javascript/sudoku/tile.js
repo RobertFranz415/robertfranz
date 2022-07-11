@@ -47,10 +47,34 @@ export default class Tile {
         }
     }
 
-
-
     remove() {
         this.#tileElement.remove();
+    }
+
+    flip() {
+        console.log(this.#y)
+        if (this.#x === 2 || this.#x === 5) {
+            this.#tileElement.classList.add("r-col");
+        } else if (this.#x === 3 || this.#x === 6) {
+            this.#tileElement.classList.add("l-col");
+        }
+        if (this.#y === 2 || this.#y === 5) {
+            this.#tileElement.classList.add("t-row");
+        } else if (this.#y === 3 || this.#y === 6) {
+            this.#tileElement.classList.add("b-row");
+        }
+
+
+        setTimeout(() => {
+            this.#tileElement.classList.add("flip")
+        }, ((100) / 2));
+
+        this.#tileElement.addEventListener(
+            "transitionend",
+            () => {
+                this.#tileElement.classList.remove("flip");  
+            })
+
     }
 
     waitForTransition(animation = false) {

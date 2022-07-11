@@ -1,5 +1,5 @@
 const GRID_SIZE = 9;
-const CELL_SIZE = 5;
+const CELL_SIZE = 6;
 const CELL_GAP = 1;
 
 export default class Grid {
@@ -75,7 +75,6 @@ class Cell {
     #x
     #y
     #tile
-    #mergeTile
     #active
 
     constructor(cellElement, x, y) {
@@ -109,27 +108,14 @@ class Cell {
         this.#tile.active = this.#active;
     }
 
-    get mergeTile() {
-        return this.#mergeTile;
-    }
-
-    set mergeTile(value) {
-        this.#mergeTile = value
-        if (value == null) return;
-        this.#mergeTile.x = this.#x;
-        this.#mergeTile.y = this.#y;
-    }
-
     setActive() {
-        // if (res === true) {
-        //     this.#cellElement.dataset.state = "active";
-        // } else {
-        //     this.#cellElement.dataset.state = "false";
-        // }
-
-        // this.#active = res;
-        this.#cellElement.dataset.state = "active";
-        this.#active = true;
+        if (this.#cellElement.dataset.state === "active") {
+            this.#cellElement.dataset.state = "inactive";
+            this.#active = false;
+        } else {
+            this.#cellElement.dataset.state = "active";
+            this.#active = true;
+        }
     }
 
     setFalse() {
@@ -139,13 +125,6 @@ class Cell {
 
     canAccept(tile) {
         return (this.tile == null || (this.mergeTile == null && this.tile.value === tile.value))
-    }
-
-    mergeTiles() {
-        if (this.tile == null || this.mergeTile == null) return;
-        this.tile.value = this.tile.value + this.mergeTile.value;
-        this.mergeTile.remove();
-        this.mergeTile = null;
     }
 
     removeTile() {
@@ -161,6 +140,17 @@ function createCellElements(gridElement) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
         cell.dataset.num = i;
+        if ((i+1) % 3 === 0 && ((i+1) % 9 !== 0)) {
+            cell.classList.add("r-col")
+        } else if ((i) % 3 === 0 && ((i+1) % 9 !== 1)) {
+            cell.classList.add("l-col")
+        }
+        if (((i) % 27 > 17 && i < 73)) {
+            cell.classList.add("t-row")
+        } else if ((i) % 27 < 9 && i > 10) {
+            cell.classList.add("b-row")
+        }
+
         cells.push(cell);
         gridElement.append(cell);
     }

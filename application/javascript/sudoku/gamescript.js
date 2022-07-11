@@ -1,11 +1,26 @@
 import Grid from "./grid.js";
 import Tile from "./tile.js";
+import { getBoards } from "./presets.js";
 
 const gameBoard = document.getElementById("game-board");
 const alertContainer = document.querySelector("[data-alert-container]");
+const keyboard = document.querySelector("[data-directions]");
+const instructions = document.querySelector("[data-instructions]");
 
 const grid = new Grid(gameBoard);
 var activeCell = 0;
+var toggled = false;
+var presetCnt = 0;
+
+const moveUp = -9;
+const moveUpMax = 72;
+const moveDown = 9;
+const moveDownMax = -72;
+const moveLeft = -1;
+const moveLeftMax = 8;
+const moveRight = 1;
+const moveRightMax = -8;
+
 setupInput();
 startGame();
 
@@ -16,11 +31,11 @@ function startGame() {
 
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
-    window.addEventListener("click", handleClick, { once: true})
+    window.addEventListener("click", handleClick, { once: true })
 }
 
 function handleClick(e) {
-    if (e.target.matches("[data-num]")){
+    if (e.target.matches("[data-num]")) {
 
         if (grid.cells[activeCell].tile) {
             grid.cells[activeCell].tile.active = false;
@@ -36,39 +51,51 @@ function handleClick(e) {
         }
     }
 
+    else if (e.target.matches("[data-key]")) {
+        moveDir(e.target.dataset.key);
+    } else if (e.target.matches("[data-action]")) {
+        if (e.target.dataset.action === "Delete") {
+            deleteActive();
+        } else if (e.target.dataset.action === "Solve") {
+            submitNums();
+        } else if (e.target.dataset.action === "Clear") {
+            clearBoard();
+        } if (e.target.dataset.action === "Preset") {
+            preset();
+        }
+    } else if (e.target.matches("[data-val]")) {
+        inputValue(e.target.dataset.val);
+    } else if (e.target.matches("[data-ins]")) {
+        popUp();
+    }
 
     setupInput();
 }
- 
+
+function popUp() {
+    if (!toggled){
+        instructions.classList.remove("hide");
+        toggled = true;
+    } else {
+        instructions.classList.add("hide");
+        toggled = false;
+    }
+
+}
+
 async function handleInput(e) {
 
     if (e.key === "ArrowUp") {
-        if (!canMoveUp()) {
-            move(72)
-        } else {
-            move(-9)
-        }
+        moveDir("Up")
 
     } else if (e.key === "ArrowDown") {
-        if (!canMoveDown()) {
-            move(-72)
-        } else {
-            move(9)
-        }
+        moveDir("Down")
 
     } else if (e.key === "ArrowLeft") {
-        if (!canMoveLeft()) {
-            move(8)
-        } else {
-            move(-1)
-        }
+        moveDir("Left")
 
     } else if (e.key === "ArrowRight") {
-        if (!canMoveRight()) {
-            move(-8)
-        } else {
-            move(1)
-        }
+        moveDir("Right")
 
     } else if (e.key.match(/^[1-9]$/)) {
         inputValue(e.key);
@@ -85,8 +112,39 @@ async function handleInput(e) {
     setupInput();
 }
 
+function moveDir(dir) {
+    if (dir === "Up") {
+        if (canMoveUp()) {
+            move(moveUp)
+        } else {
+            move(moveUpMax)
+        }
+
+    } else if (dir === "Down") {
+        if (canMoveDown()) {
+            move(moveDown)
+        } else {
+            move(moveDownMax)
+        }
+
+    } else if (dir === "Left") {
+        if (canMoveLeft()) {
+            move(moveLeft)
+        } else {
+            move(moveLeftMax)
+        }
+
+    } else if (dir === "Right") {
+        if (canMoveRight()) {
+            move(moveRight)
+        } else {
+            move(moveRightMax)
+        }
+    }
+}
+
 function canMoveUp() {
-    
+
     return grid.activeCell()[0].y !== 0;
 }
 
@@ -110,7 +168,7 @@ function move(dir) {
     if (grid.cells[activeCell].tile) {
         grid.cells[activeCell].tile.active = false;
     }
-    
+
     // updates the active cell
     grid.cells[activeCell].setActive();
     activeCell += dir;
@@ -142,7 +200,7 @@ function enterTile(location, value) {
 
 function deleteActive() {
     grid.activeCell()[0].removeTile();
-    
+
 }
 
 function clearBoard() {
@@ -153,8 +211,8 @@ function submitNums() {
     var board = [];
     for (let i = 0; i < 9; i++) {
         let temp = [];
-        for (let j = 0; j < 9; j++){
-            if (!grid.cellsByRow[i][j].tile){
+        for (let j = 0; j < 9; j++) {
+            if (!grid.cellsByRow[i][j].tile) {
                 temp.push(".");
             } else {
                 temp.push(grid.cellsByRow[i][j].tile.value);
@@ -162,6 +220,7 @@ function submitNums() {
         }
         board.push(temp);
     }
+    console.log(board)
 
     if (isValidSudoku(board)) {
         solveSudoku(board);
@@ -172,8 +231,9 @@ function submitNums() {
                 break;
             }
         }
-        
+
         complete(board);
+        showAlert("Sudoku Solved!")
     } else {
         showAlert("No Possible Solutions")
     }
@@ -182,17 +242,17 @@ function submitNums() {
 
 function isValidSudoku(board) {
     const mySet = new Set();
-    
-    for (let i = 0; i < 9; i++){
-        for (let j = 0; j < 9; j++){
-            if (board[i][j] === "."){
+
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (board[i][j] === ".") {
                 continue;
             }
             let tempRow = board[i][j] + " in row: " + i;
             let tempCol = board[i][j] + " in column: " + j;
-            let tempBox = board[i][j] + " in box: " + Math.floor(i/3) + "-" + Math.floor(j/3);
+            let tempBox = board[i][j] + " in box: " + Math.floor(i / 3) + "-" + Math.floor(j / 3);
 
-            if (mySet.has(tempRow) || mySet.has(tempCol) || mySet.has(tempBox)){
+            if (mySet.has(tempRow) || mySet.has(tempCol) || mySet.has(tempBox)) {
                 return false;
             }
             mySet.add(tempRow);
@@ -200,38 +260,38 @@ function isValidSudoku(board) {
             mySet.add(tempBox);
         }
     }
-    
+
     return true;
 }
 
 function solveSudoku(board) {
-    var isValid = function(board, num, row, col){
-        let b_row =  Math.floor(row / 3) * 3;
-        let b_col =  Math.floor(col / 3) * 3;
+    var isValid = function (board, num, row, col) {
+        let b_row = Math.floor(row / 3) * 3;
+        let b_col = Math.floor(col / 3) * 3;
 
-        for (let i = 0; i < board.length; i++){
+        for (let i = 0; i < board.length; i++) {
             if (board[row][i] === num || board[i][col] === num) {
                 return false;
             }
-            let curRow = b_row +  Math.floor(i / 3);
-            let curCol = b_col +  Math.floor(i % 3);
-            if (board[curRow][curCol] === num) 
+            let curRow = b_row + Math.floor(i / 3);
+            let curCol = b_col + Math.floor(i % 3);
+            if (board[curRow][curCol] === num)
                 return false;
         }
         return true;
 
     }
-    
-    var solve = function(board){
 
-        for (let row = 0; row < board.length; row++){
-            for (let col = 0; col < board.length; col++){
-                if (board[row][col] !== '.'){
+    var solve = function (board) {
+
+        for (let row = 0; row < board.length; row++) {
+            for (let col = 0; col < board.length; col++) {
+                if (board[row][col] !== '.') {
                     continue;
                 }
-                for (let i = 1; i <= 9; i++){
+                for (let i = 1; i <= 9; i++) {
                     const s_i = i.toString();
-                    if (isValid(board, s_i, row, col)){
+                    if (isValid(board, s_i, row, col)) {
                         board[row][col] = s_i;
                         if (solve(board)) {
                             return true;
@@ -239,28 +299,25 @@ function solveSudoku(board) {
                     }
                 }
                 board[row][col] = '.';
-                return false;   
+                return false;
             }
         }
         return true;
-        
+
     }
-  
+
     solve(board);
 }
 
 function preset() {
-    let board = [
-    ["5","3",".",".","7",".",".",".","."],
-    ["6",".",".","1","9","5",".",".","."],
-    [".","9","8",".",".",".",".","6","."],
-    ["8",".",".",".","6",".",".",".","3"],
-    ["4",".",".","8",".","3",".",".","1"],
-    ["7",".",".",".","2",".",".",".","6"],
-    [".","6",".",".",".",".","2","8","."],
-    [".",".",".","4","1","9",".",".","5"],
-    [".",".",".",".","8",".",".","7","9"]];
-    
+    let boards = getBoards();
+    let board = boards[presetCnt]
+    if (presetCnt === boards.length-1) {
+        presetCnt = 0;
+    } else {
+        presetCnt++;
+    }
+    //let board = boards[Math.floor(Math.random() * 2)]
     clearBoard();
     complete(board);
 

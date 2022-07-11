@@ -52,7 +52,6 @@ export default class Tile {
     }
 
     flip() {
-        console.log(this.#y)
         if (this.#x === 2 || this.#x === 5) {
             this.#tileElement.classList.add("r-col");
         } else if (this.#x === 3 || this.#x === 6) {

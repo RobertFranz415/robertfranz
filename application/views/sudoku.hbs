@@ -5,20 +5,50 @@
 </head>
 
 <div id="sudoku-container">
+    <div class="instructions hide" data-instructions>
+        <div class="i-grid">
+            <div id="warning">Instructions</div>
+            <div class="instructions">Press P for a preset board</div>
+            <div class="instructions">Press Enter to check answer or automatically solve if not finished</div>
+            <div class="instructions">Click on tiles or use arrow keys to move selection </div>
+            <div class="instructions">Backspace or delete to remove number </div>
+            <div class="instructions">Press D clear whole board </div>
+        </div>
+    </div>
     <div class="alert-container" data-alert-container></div>
     <div id="game-board">
 
     </div>
 
 </div>
-<div id="temp">
-    <div class="i-grid">
-        <div id="warning">Still a work in progress</div>
-        <div class="instructions">p = preset board</div>
-        <div class="instructions"> enter to check answer or automatically solve if not finished</div>
-        <div class="instructions">click or use arrow keys to move selection </div>
-        <div class="instructions">backspace or delete to remove number </div>
-        <div class="instructions">d = clear whole board </div>
+<div class="controls">
+    <div id="directions" data-directions>
+        <div class="blank"></div>
+        <div class="arrow" data-key="Up">Up</div>
+        <div class="blank"></div>
+        <div class="arrow" data-key="Left">Left</div>
+        <div class="arrow" data-key="Down">Down</div>
+        <div class="arrow" data-key="Right">Right</div>
+    </div>
+    <div class="numbers">
+        <div class="num" data-val="1">1</div>
+        <div class="num" data-val="2">2</div>
+        <div class="num" data-val="3">3</div>
+        <div class="num" data-val="4">4</div>
+        <div class="num" data-val="5">5</div>
+        <div class="num" data-val="6">6</div>
+        <div class="num" data-val="7">7</div>
+        <div class="num" data-val="8">8</div>
+        <div class="num" data-val="9">9</div>
+    </div>
+    <div class="actions">
+        <div class="key" data-action="Preset">Load Preset</div>
+        <div class="key" data-action="Solve">Solve</div>
+        <div class="key" data-action="Delete">Delete Tile</div>
+        <div class="key" data-action="Clear">Clear Board</div>
+        <div class="invis"></div>
+        <div class="key" data-ins >Instructions</div>
+        <div class="invis"></div>
     </div>
 
 </div>

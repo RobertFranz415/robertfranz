@@ -13,7 +13,8 @@
     margin: 0;
     font-size: 3.5vmin;
     gap: 1vmin;
-    color: aliceblue
+    color: aliceblue;
+    padding-top: 2vmin;
 }
 
 #game-board {
@@ -30,7 +31,7 @@
 }
 
 .cell {
-    background-color: #383c42;
+    background-color: #41464d;
    
 }
 
@@ -75,7 +76,7 @@
 .alert {
     z-index: 1;
     pointer-events: none;
-    background-color: hsl(204, 7%, 85%);
+    background-color: hsla(204, 6%, 85%, 0.89);
     color: #2d3238;
     padding: .75em;
     border-radius: .25em;
@@ -103,10 +104,19 @@
     font-size: 6vmin;
 }
 
+.instructions {
+    display: flex;
+    z-index: 1;
+    align-self: center;
+}
+
 .i-grid {
+    position: absolute;
     display: grid;
     grid-template-areas: repeat(auto, auto);
     font-size: 2vmin;
+    background-color: #2d3238;
+    padding: 5vmin;
 }
 
 .r-col {
@@ -122,4 +132,93 @@
 
 .b-row {
     margin-top: .4vmin;
+}
+
+.controls {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 2em;
+    gap: 10vmin;
+}
+
+#directions {
+    align-self: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 5em));
+    grid-auto-rows: 5em;
+    gap: .25em;
+    justify-content: center;
+}
+
+.arrow {
+    font-size: inherit;
+    grid-column: span 1;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(78, 79, 80);
+    color: white;
+    fill: white;
+    text-transform: uppercase;
+    border-radius: .25em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.actions {
+    align-self: center;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(auto, 5em));
+    grid-auto-rows: 5em;
+    gap: .25em;
+    justify-content: center;
+}
+
+.key {
+    font-size: inherit;
+    grid-column: span 2;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(78, 79, 80);
+    color: white;
+    fill: white;
+    text-transform: uppercase;
+    border-radius: .25em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.numbers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 5em));
+    grid-auto-rows: 5em;
+    gap: .25em;
+    justify-content: center;
+}
+
+.num {
+    font-size: 2.5vmin;
+    grid-column: span 1;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(78, 79, 80);
+    color: white;
+    fill: white;
+    text-transform: uppercase;
+    border-radius: .25em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.hide {
+    display: none;
 }

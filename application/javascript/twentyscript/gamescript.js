@@ -15,6 +15,7 @@ function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
     window.addEventListener("keydown", removeMsg, { once: true })
     window.addEventListener("click", handleClick, { once: true })
+    window.addEventListener("click", removeMsg, { once: true })
 }
 
 function removeMsg() {

@@ -11,6 +11,16 @@ const grid = new Grid(gameBoard);
 var activeCell = 0;
 var toggled = false;
 var presetCnt = 0;
+var newBoard = [
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", ".", "."]]; 
 
 const moveUp = -9;
 const moveUpMax = 72;
@@ -182,11 +192,18 @@ function move(dir) {
 // Enters tile from where the user is highlighting
 function inputValue(val) {
     // removes any previous tile before creating a new one
-    if (grid.activeCell()[0].tile) {
-        grid.activeCell()[0].removeTile();
+
+    if(isValid(newBoard, val, grid.activeCell()[0].y, grid.activeCell()[0].x)) {
+        if (grid.activeCell()[0].tile) {
+            grid.activeCell()[0].removeTile();
+        }
+        grid.activeCell()[0].tile = new Tile(gameBoard, val, grid.activeCell()[0].x, grid.activeCell()[0].y, true);
+        newBoard[grid.activeCell()[0].y][grid.activeCell()[0].x] = val;
+        grid.activeCell()[0].tile.flip();
+    } else if (!((grid.activeCell()[0].tile) && (grid.activeCell()[0].tile.value === val))) { 
+        showAlert("Not a valid Placement")
     }
-    grid.activeCell()[0].tile = new Tile(gameBoard, val, activeCell % 9, Math.floor(activeCell / 9), true);
-    grid.activeCell()[0].tile.flip();
+
 }
 
 // Enters tile from whatever location given
@@ -194,46 +211,47 @@ function enterTile(location, value) {
     if (grid.cells[location].tile) {
         grid.cells[location].removeTile();
     }
-    grid.cells[location].tile = new Tile(gameBoard, value, location % 9, Math.floor(location / 9), true);
+    grid.cells[location].tile = new Tile(gameBoard, value, grid.cells[location].x, grid.cells[location].y, true);
     // grid.cells[location].tile.flip(); // can be obnoxious if all flip at once
 }
 
 function deleteActive() {
     grid.activeCell()[0].removeTile();
+    newBoard[grid.activeCell()[0].y][grid.activeCell()[0].x] = ".";
 
 }
 
 function clearBoard() {
     grid.clearTiles();
+    newBoard = [
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        [".", ".", ".", ".", ".", ".", ".", ".", "."]]; 
 }
 
 function submitNums() {
-    var board = [];
-    for (let i = 0; i < 9; i++) {
-        let temp = [];
-        for (let j = 0; j < 9; j++) {
-            if (!grid.cellsByRow[i][j].tile) {
-                temp.push(".");
-            } else {
-                temp.push(grid.cellsByRow[i][j].tile.value);
-            }
-        }
-        board.push(temp);
-    }
-    console.log(board)
 
-    if (isValidSudoku(board)) {
-        solveSudoku(board);
+    if (isValidSudoku(newBoard)) {
+        solve(newBoard);
 
         for (let i = 0; i < 9; i++) {
-            if (board[i].includes(".")) {
+            if (newBoard[i].includes(".")) {
                 showAlert("No possible solutions from current board");
                 break;
             }
+            if (i === 8){
+                showAlert("Sudoku Solved!")
+            }
         }
 
-        complete(board);
-        showAlert("Sudoku Solved!")
+        complete(newBoard);
+
     } else {
         showAlert("No Possible Solutions")
     }
@@ -264,51 +282,57 @@ function isValidSudoku(board) {
     return true;
 }
 
-function solveSudoku(board) {
-    var isValid = function (board, num, row, col) {
-        let b_row = Math.floor(row / 3) * 3;
-        let b_col = Math.floor(col / 3) * 3;
+/*  Solves the sudoku board   */
+function isValid(board, num, row, col) {
+    let b_row = Math.floor(row / 3) * 3;
+    let b_col = Math.floor(col / 3) * 3;
 
-        for (let i = 0; i < board.length; i++) {
-            if (board[row][i] === num || board[i][col] === num) {
-                return false;
-            }
-            let curRow = b_row + Math.floor(i / 3);
-            let curCol = b_col + Math.floor(i % 3);
-            if (board[curRow][curCol] === num)
-                return false;
+    for (let i = 0; i < board.length; i++) {
+        if (board[row][i] === num || board[i][col] === num) {
+            return false;
         }
-        return true;
-
+        let curRow = b_row + Math.floor(i / 3);
+        let curCol = b_col + Math.floor(i % 3);
+        if (board[curRow][curCol] === num)
+            return false;
     }
+    return true;
 
-    var solve = function (board) {
-
-        for (let row = 0; row < board.length; row++) {
-            for (let col = 0; col < board.length; col++) {
-                if (board[row][col] !== '.') {
-                    continue;
-                }
-                for (let i = 1; i <= 9; i++) {
-                    const s_i = i.toString();
-                    if (isValid(board, s_i, row, col)) {
-                        board[row][col] = s_i;
-                        if (solve(board)) {
-                            return true;
-                        }
-                    }
-                }
-                board[row][col] = '.';
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-    solve(board);
 }
 
+function solve(board) {
+
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board.length; col++) {
+            if (board[row][col] !== '.') {
+                continue;
+            }
+            for (let i = 1; i <= 9; i++) {
+                const s_i = i.toString();
+                if (isValid(board, s_i, row, col)) {
+                    board[row][col] = s_i;
+                    if (solve(board)) {
+                        return true;
+                    }
+                }
+            }
+            board[row][col] = '.';
+            return false;
+        }
+    }
+    return true;
+}
+
+/* Inserts the correct files from a complete board */
+function complete(board) {
+    let temp = board.flat();
+    for (let i = 0; i < 81; i++) {
+        if (temp[i] === ".") continue;
+        enterTile(i, temp[i])
+    }
+}
+
+/* Loads the preset boards */
 function preset() {
     let boards = getBoards();
     let board = boards[presetCnt]
@@ -321,14 +345,6 @@ function preset() {
     clearBoard();
     complete(board);
 
-}
-
-function complete(board) {
-    let temp = board.flat();
-    for (let i = 0; i < 81; i++) {
-        if (temp[i] === ".") continue;
-        enterTile(i, temp[i])
-    }
 }
 
 function showAlert(message, duration = 1000) {

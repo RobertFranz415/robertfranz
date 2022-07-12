@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    height: 90vh;
+
     margin: 0;
     font-size: 7.5vmin;
     gap: 1vmin
@@ -158,4 +158,47 @@
 
 .hide {
     display: none;
+}
+
+.sidebar {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#controls {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 1em;
+    gap: 10vmin;
+
+}
+
+#directions {
+    align-self: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1em));
+    grid-auto-rows: 1em;
+    gap: .15em;
+    justify-content: center;
+
+}
+
+.arrow {
+    font-size: 1vmin;
+    grid-column: span 1;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(78, 79, 80);
+    color: white;
+    fill: white;
+    text-transform: uppercase;
+    border-radius: .25em;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1vmin;
+    border-radius: 1vmin;
 }

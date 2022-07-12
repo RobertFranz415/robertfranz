@@ -14,10 +14,63 @@ setupInput();
 function setupInput() {
     window.addEventListener("keydown", handleInput, { once: true })
     window.addEventListener("keydown", removeMsg, { once: true })
+    window.addEventListener("click", handleClick, { once: true })
 }
 
 function removeMsg() {
     msgElem.classList.add("hide");
+}
+
+async function handleClick(e) {
+    switch (e.target.dataset.key) {
+        case "Up":
+            if (!canMoveUp()) {
+                setupInput()
+                return
+            }
+            await moveUp()
+            break
+        case "Down":
+            if (!canMoveDown()) {
+                setupInput()
+                return
+            }
+            await moveDown()
+            break
+        case "Left":
+            if (!canMoveLeft()) {
+                setupInput()
+                return
+            }
+            await moveLeft()
+            break
+        case "Right":
+            if (!canMoveRight()) {
+                setupInput()
+                return
+            }
+            await moveRight()
+            break
+        default:
+            setupInput();
+            return;
+            break
+    }
+
+    grid.cells.forEach(cell => cell.mergeTiles());
+
+    const newTile = new Tile(gameBoard)
+    grid.randomEmptyCell().tile = newTile;
+    getScore();
+    if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
+        newTile.waitForTransition(true).then(() => {
+            handleLoss();
+        })
+        return
+    }
+
+    setupInput();
+
 }
 
 async function handleInput(e) {
@@ -61,7 +114,7 @@ async function handleInput(e) {
     const newTile = new Tile(gameBoard)
     grid.randomEmptyCell().tile = newTile;
     getScore();
-    if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()){
+    if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
         newTile.waitForTransition(true).then(() => {
             handleLoss();
         })
@@ -88,31 +141,31 @@ function moveRight() {
 }
 
 function slideTiles(cells) {
-    
+
     return Promise.all(
-    cells.flatMap(group => {
-        const promises = []
-        for (let i = 1; i < group.length; i++) {
-            const cell = group[i];
-            if (cell.tile == null) continue;
-            let lastValidCell
-            for (let j = i-1; j >= 0; j--) {
-                const moveToCell = group[j]
-                if (!moveToCell.canAccept(cell.tile)) break;
-                lastValidCell = moveToCell
-            }
-            if (lastValidCell != null) {
-                promises.push(cell.tile.waitForTransition())
-                if (lastValidCell.tile != null) {
-                    lastValidCell.mergeTile = cell.tile;
-                } else {
-                    lastValidCell.tile = cell.tile;
+        cells.flatMap(group => {
+            const promises = []
+            for (let i = 1; i < group.length; i++) {
+                const cell = group[i];
+                if (cell.tile == null) continue;
+                let lastValidCell
+                for (let j = i - 1; j >= 0; j--) {
+                    const moveToCell = group[j]
+                    if (!moveToCell.canAccept(cell.tile)) break;
+                    lastValidCell = moveToCell
                 }
-                cell.tile = null
+                if (lastValidCell != null) {
+                    promises.push(cell.tile.waitForTransition())
+                    if (lastValidCell.tile != null) {
+                        lastValidCell.mergeTile = cell.tile;
+                    } else {
+                        lastValidCell.tile = cell.tile;
+                    }
+                    cell.tile = null
+                }
             }
-        }
-        return promises
-    })
+            return promises
+        })
     )
 }
 
@@ -145,8 +198,8 @@ function canMove(cells) {
 
 function handleLoss() {
     msgElem.classList.remove("hide");
-    msgElem.innerHTML = 
-    `<div id="msg-container">
+    msgElem.innerHTML =
+        `<div id="msg-container">
         <div id="score">Final Score: ${getScore()}</div>
         <div id="msg">No more possible moves </div>
         <div id="refresh" onClick="window.location.reload();">Play Again</div>

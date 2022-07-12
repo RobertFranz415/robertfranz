@@ -138,8 +138,8 @@
     display: flex;
     align-content: center;
     justify-content: center;
-    padding: 2em;
-    gap: 10vmin;
+    padding: 2px;
+    gap: 20px;
 }
 
 #directions {
@@ -152,7 +152,7 @@
 }
 
 .arrow {
-    font-size: inherit;
+    font-size: 2vmin;
     grid-column: span 1;
     border: none;
     padding: 0;
@@ -168,6 +168,16 @@
     user-select: none;
 }
 
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 700,
+  'GRAD' 200,
+  'opsz' 48
+}
+
+
 .actions {
     align-self: center;
     display: grid;
@@ -178,11 +188,12 @@
 }
 
 .key {
-    font-size: inherit;
+    font-size: 1.5vmin;
     grid-column: span 2;
     border: none;
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     background-color: rgb(78, 79, 80);

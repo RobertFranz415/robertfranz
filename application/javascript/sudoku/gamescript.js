@@ -154,22 +154,18 @@ function moveDir(dir) {
 }
 
 function canMoveUp() {
-
     return grid.activeCell()[0].y !== 0;
 }
 
 function canMoveDown() {
-
     return grid.activeCell()[0].y !== 8;
 }
 
 function canMoveLeft() {
-
     return grid.activeCell()[0].x !== 0;
 }
 
 function canMoveRight() {
-
     return grid.activeCell()[0].x !== 8;
 }
 
@@ -191,8 +187,8 @@ function move(dir) {
 }
 // Enters tile from where the user is highlighting
 function inputValue(val) {
-    // removes any previous tile before creating a new one
 
+    // removes any previous tile before creating a new one
     if(isValid(newBoard, val, grid.activeCell()[0].y, grid.activeCell()[0].x)) {
         if (grid.activeCell()[0].tile) {
             grid.activeCell()[0].removeTile();
@@ -203,17 +199,18 @@ function inputValue(val) {
     } else if (!((grid.activeCell()[0].tile) && (grid.activeCell()[0].tile.value === val))) { 
         showAlert("Not a valid Placement")
     }
-
 }
 
 // Enters tile from whatever location given
-function enterTile(location, value) {
+function enterTile(x, y, value) {
+    let location = x + (y * 9);
     if (grid.cells[location].tile) {
         grid.cells[location].removeTile();
     }
-    grid.cells[location].tile = new Tile(gameBoard, value, grid.cells[location].x, grid.cells[location].y, true);
+    grid.cells[location].tile = new Tile(gameBoard, value, x, y, true);
     // grid.cells[location].tile.flip(); // can be obnoxious if all flip at once
 }
+
 
 function deleteActive() {
     grid.activeCell()[0].removeTile();
@@ -325,15 +322,19 @@ function solve(board) {
 
 /* Inserts the correct files from a complete board */
 function complete(board) {
-    let temp = board.flat();
-    for (let i = 0; i < 81; i++) {
-        if (temp[i] === ".") continue;
-        enterTile(i, temp[i])
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (board[i][j] === ".") continue;
+            enterTile(j, i, board[i][j])
+            newBoard[i][j] = board[i][j];
+        }
     }
+
 }
 
 /* Loads the preset boards */
 function preset() {
+    clearBoard();
     let boards = getBoards();
     let board = boards[presetCnt]
     if (presetCnt === boards.length-1) {
@@ -342,7 +343,6 @@ function preset() {
         presetCnt++;
     }
     //let board = boards[Math.floor(Math.random() * 2)]
-    clearBoard();
     complete(board);
 
 }
